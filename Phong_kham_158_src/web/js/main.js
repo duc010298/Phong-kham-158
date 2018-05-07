@@ -169,12 +169,6 @@ $("#btn-acept-save").click(function () {
     console.log(Result);
     console.log(Note);
 
-//    $.post("demo_test_post.asp", {
-//        name: "Donald Duck",
-//        city: "Duckburg"
-//    }, function (data, status) {
-//        alert("Data: " + data + "\nStatus: " + status);
-//    });
 });
 
 function error(errorContent) {
