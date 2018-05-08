@@ -55,14 +55,14 @@
                     </div>
                 </div>
             </div>
-            <div id="error-modal" class="modal">
+            <div id="notify-modal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <p>Lỗi</p>
+                        <p id="notify-header"></p>
                     </div>
                     <hr>
                     <div class="modal-body">
-                        <h1 id="error-content"></h1>
+                        <h1 id="notify-content"></h1>
                     </div>
                     <hr>
                     <div class="modal-footer">

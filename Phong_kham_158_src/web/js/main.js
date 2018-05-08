@@ -105,7 +105,7 @@ $("#btn-reload").click(function () {
 });
 
 $(".btn-close").click(function () {
-    $("#modal, #error-modal").fadeOut();
+    $("#modal, #notify-modal").fadeOut();
     $(".modal-body>input").val("");
 });
 
@@ -115,7 +115,7 @@ $("#btn-acept-save").click(function () {
     var Name = $("#input0").val();
     if (Name === "") {
         $("#modal").fadeOut();
-        error("Chưa nhập tên");
+        notify("Lỗi", "Chưa nhập tên");
         return;
     }
     var YearNow = new Date().getFullYear();
@@ -131,13 +131,14 @@ $("#btn-acept-save").click(function () {
     }
     if (Age === "") {
         $("#modal").fadeOut();
-        error("Chưa nhập tuổi");
+        notify("Lỗi", "Chưa nhập tuổi");
         return;
     }
+    var YOB = YearNow - Age;
     var AddressCus = $("#input2").val();
     if (AddressCus === "") {
         $("#modal").fadeOut();
-        error("Chưa nhập địa chỉ");
+        notify("Lỗi", "Chưa nhập địa chỉ");
         return;
     }
     var ExpectedDOB;
@@ -164,6 +165,7 @@ $("#btn-acept-save").click(function () {
     console.log(YearNow);
     console.log(AgeString);
     console.log(Age);
+    console.log(YOB);
     console.log(AddressCus);
     console.log(ExpectedDOB);
     console.log(Result);
@@ -171,10 +173,10 @@ $("#btn-acept-save").click(function () {
 
 });
 
-function error(errorContent) {
-    $("#modal").fadeOut("fast");
-    $("#error-content").html(errorContent);
-    $("#error-modal").fadeIn("fast");
+function notify(Header, Content) {
+    $("#notify-header").html(Header);
+    $("#notify-content").html(Content);
+    $("#notify-modal").fadeIn("fast");
 }
 
 $('.modal-body input').keydown(function (e) {
