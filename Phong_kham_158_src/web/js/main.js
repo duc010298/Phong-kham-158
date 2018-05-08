@@ -107,6 +107,9 @@ $("#btn-reload").click(function () {
 $(".btn-close").click(function () {
     $("#modal, #notify-modal").fadeOut();
     $(".modal-body>input").val("");
+    setTimeout(function () {
+        $(".modal-body h1").attr("style", "");
+    }, 500);
 });
 
 $("#btn-acept-save").click(function () {
@@ -146,6 +149,10 @@ $("#btn-acept-save").click(function () {
         ExpectedDOB = "NULL";
     } else {
         ExpectedDOB = $("#ExpectedDOB").val();
+        if (!validateDate(ExpectedDOB)) {
+            notify("Lỗi", "Ngày sinh dự kiến không được nhập chính xác");
+            return;
+        }
     }
     var Result = $("#input" + indexOfResult).val();
     if (typeof (Result) === "undefined") {
@@ -158,14 +165,6 @@ $("#btn-acept-save").click(function () {
     } else {
         Note = $("#Note").val();
     }
-
-    console.log(Name);
-    console.log(Age);
-    console.log(YOB);
-    console.log(AddressCus);
-    console.log(ExpectedDOB);
-    console.log(Result);
-    console.log(Note);
 
     $.ajax({
         url: window.location.href + "customer?tasks=add",
@@ -187,6 +186,10 @@ $("#btn-acept-save").click(function () {
 
 function notify(Header, Content) {
     $("#notify-header").html(Header);
+    //Độ dài vượt quá 22 gây tràn modal
+    if (Content.length > 22) {
+        $(".modal-body h1").attr("style", "font-size: 1.6rem");
+    }
     $("#notify-content").html(Content);
     $("#notify-modal").fadeIn("fast");
 }
@@ -201,3 +204,40 @@ $('.modal-body input').keydown(function (e) {
         $('.modal-body input').eq(i).focus();
     }
 });
+
+function validateDate(date) {
+    //input must be dd/MM/yyyy
+    var arr = date.split("/");
+    if (arr.length !== 3) {
+        return false;
+    }
+
+    var day = arr[0];
+    var month = arr[1];
+    var year = arr[2];
+
+    var isLeapYear = false;
+    if ((year % 4 == 0) && (year % 100 != 0)) {
+        isLeapYear = true;
+    }
+    if (month < 1 || month > 12) {
+        return false;
+    }
+    if ((month == 4 || month == 6 || month == 9 || month == 11) && (day < 0 || day > 30)) {
+        return false;
+    }
+    if ((month != 2) && (day < 0 || day > 31)) {
+        return false;
+    }
+    if (isLeapYear && month == 2 && (day < 0 || day > 29)) {
+        return false;
+    }
+    if (!isLeapYear && month == 2 && (day < 0 || day > 28)) {
+        return false;
+    }
+    if (year < 1500 || year > 2100) {
+        return false;
+    }
+
+    return true;
+}

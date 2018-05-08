@@ -29,9 +29,18 @@ public class customerServlet extends HttpServlet {
                 String AddressCus = request.getParameter("AddressCus");
                 Date DayVisit = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                Date ExpectedDOB = formatter.parse(request.getParameter("ExpectedDOB"));
+                String strExpectedDOB = request.getParameter("ExpectedDOB");
+                Date ExpectedDOB;
+                if(strExpectedDOB.equals("NULL")) {
+                    ExpectedDOB = null;
+                } else {
+                    ExpectedDOB = formatter.parse(strExpectedDOB);
+                }
                 String Result = request.getParameter("Result");
                 String Note = request.getParameter("Note");
+                if(Note.equals("NULL")) {
+                    Note = null;
+                }
 
                 Customer cus = new Customer();
                 cus.setName(Name);
