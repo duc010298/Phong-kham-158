@@ -159,11 +159,7 @@ $("#btn-acept-save").click(function () {
         Note = $("#Note").val();
     }
 
-    console.log(totalInput);
-    console.log(indexOfResult);
     console.log(Name);
-    console.log(YearNow);
-    console.log(AgeString);
     console.log(Age);
     console.log(YOB);
     console.log(AddressCus);
@@ -171,6 +167,22 @@ $("#btn-acept-save").click(function () {
     console.log(Result);
     console.log(Note);
 
+    $.ajax({
+        url: window.location.href + "customer?tasks=add",
+        type: 'POST',
+        dataType: 'html',
+        data: {
+            Name: Name,
+            Age: Age,
+            YOB: YOB,
+            AddressCus: AddressCus,
+            ExpectedDOB: ExpectedDOB,
+            Result: Result,
+            Note: Note
+        }
+    }).done(function (result) {
+        notify("Thông báo", result);
+    });
 });
 
 function notify(Header, Content) {

@@ -1,4 +1,4 @@
-package com.phongkham.utils;
+package com.phongkham.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

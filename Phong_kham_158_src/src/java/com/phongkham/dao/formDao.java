@@ -1,7 +1,7 @@
 package com.phongkham.dao;
 
 import com.phongkham.model.Form;
-import com.phongkham.utils.DBConn;
+import com.phongkham.util.DBConn;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
