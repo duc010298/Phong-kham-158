@@ -72,7 +72,7 @@
             </div>
         </header>
 
-        <section>
+        <main>
             <div id="spinner" class="spinner">
                 <div class="spinner-content">
                     <div class="spin"></div>
@@ -83,7 +83,7 @@
                     <p>Chưa có nội dung để hiển thị</p>
                 </div>
             </div>
-        </section>
+        </main>
 
         <footer>
             <div class="footer-content">
