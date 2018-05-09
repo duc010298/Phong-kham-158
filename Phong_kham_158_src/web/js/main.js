@@ -46,6 +46,11 @@ $("#btn-report").click(function () {
     $("#nav-2").animate({
         height: 'hide'
     }, 350);
+    
+    //
+    $.get(window.location.href + "report.jsp", function (result) {
+        $("#container").html(result);
+    });
 });
 
 $("#nav-2>ul>li").click(function () {
