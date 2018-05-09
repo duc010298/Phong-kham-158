@@ -1,10 +1,10 @@
 var firstClick = true;
 
-$("#btn-kqsa").click(function () {
-    if ($("#btn-kqsa").attr("class") === "nav-content") {
-        $("#btn-kqsa").attr("class", "nav-content nav-active");
-        $("#btn-bcsa").attr("class", "nav-content");
-        $("#btn-kqsa>span").attr("class", "fas fa-angle-up");
+$("#btn-result").click(function () {
+    if ($("#btn-result").attr("class") === "nav-content") {
+        $("#btn-result").attr("class", "nav-content nav-active");
+        $("#btn-report").attr("class", "nav-content");
+        $("#btn-result>span").attr("class", "fas fa-angle-up");
         $("main").attr("style", "margin-left: 14.375rem");
         $(".spinner-content").attr("style", "padding-right: 14.375rem;");
         if (firstClick) {
@@ -12,8 +12,8 @@ $("#btn-kqsa").click(function () {
         }
         $(".footer-content").attr("style", "margin-left: 14.375rem");
     } else {
-        $("#btn-kqsa").attr("class", "nav-content");
-        $("#btn-kqsa>span").attr("class", "fas fa-angle-down");
+        $("#btn-result").attr("class", "nav-content");
+        $("#btn-result>span").attr("class", "fas fa-angle-down");
         $("main, .spinner-content").attr("style", "");
         if (firstClick) {
             $(".content-default p").attr("style", "");
@@ -25,11 +25,11 @@ $("#btn-kqsa").click(function () {
     }, 350);
 });
 
-$("#btn-bcsa").click(function () {
-    if ($("#btn-bcsa").attr("class") === "nav-content") {
-        $("#btn-bcsa").attr("class", "nav-content nav-active");
-        $("#btn-kqsa").attr("class", "nav-content");
-        $("#btn-kqsa>span").attr("class", "fas fa-angle-down");
+$("#btn-report").click(function () {
+    if ($("#btn-report").attr("class") === "nav-content") {
+        $("#btn-report").attr("class", "nav-content nav-active");
+        $("#btn-result").attr("class", "nav-content");
+        $("#btn-result>span").attr("class", "fas fa-angle-down");
         $("main").attr("style", "");
         if (firstClick) {
             $(".content-default p").attr("style", "");

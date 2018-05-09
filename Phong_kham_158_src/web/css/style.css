@@ -283,7 +283,7 @@ td {
     padding: 0.3125rem;
 }
 
-#container input {
+.page-container input {
     outline: none;
     border: none;
     font-size: 1.125rem;

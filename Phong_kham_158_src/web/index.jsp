@@ -15,8 +15,8 @@
     <body>
         <header>
             <div class="nav">
-                <div id="btn-kqsa" class="nav-content"><span class="fas fa-angle-down"></span> KẾT QUẢ SIÊU ÂM</div>
-                <div id="btn-bcsa" class="nav-content"><span class="far fa-file-excel"></span> BÁO CÁO SIÊU ÂM</div>
+                <div id="btn-result" class="nav-content"><span class="fas fa-angle-down"></span> KẾT QUẢ SIÊU ÂM</div>
+                <div id="btn-report" class="nav-content"><span class="far fa-file-excel"></span> BÁO CÁO SIÊU ÂM</div>
             </div>
             <div id="nav-2" class="nav-2">
                 <ul>
