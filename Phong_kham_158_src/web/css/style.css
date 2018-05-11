@@ -20,7 +20,7 @@ body {
     overflow: hidden;
     background-color: #404040;
     box-shadow: 0px 0px 1px #404040;
-    z-index: 1;
+    z-index: 2;
 }
 
 .nav-content {
@@ -221,6 +221,7 @@ main {
     height: 100%;
     width: 100%;
     background-color: rgba(0,0,0,0.4);
+    z-index: 1;
 }
 
 .spinner-content {
@@ -410,6 +411,7 @@ main {
 }
 
 .display-result-content tr:nth-child(1) {
+    background-color: #FFFFFF;
     -webkit-user-select: none;
 }
 
@@ -423,8 +425,16 @@ main {
 }
 
 .display-result-content tr:hover {
-    background-color: #F5F5F5;
+    background-color: #E5E5E5;
     cursor: pointer;
+}
+
+.display-result-content tr td:nth-child(1) {
+    text-align: center;
+}
+
+.STT {
+    width: auto;
 }
 
 .dayVisit {
@@ -448,7 +458,7 @@ main {
 }
 
 .result {
-    width: 472px;
+    width: 450px;
 }
 
 .Note {

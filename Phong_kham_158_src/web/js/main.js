@@ -14,11 +14,11 @@ $("#btn-result").click(function () {
     } else {
         $("#btn-result").attr("class", "nav-content");
         $("#btn-result>span").attr("class", "fas fa-angle-down");
-        $("main, .spinner-content").attr("style", "");
+        $("main, .spinner-content").removeAttr("style");
         if (firstClick) {
-            $(".content-default p").attr("style", "");
+            $(".content-default p").removeAttr("style");
         }
-        $(".footer-content").attr("style", "");
+        $(".footer-content").removeAttr("style");
     }
     $("#nav-2").animate({
         height: 'toggle'
@@ -30,11 +30,12 @@ $("#btn-report").click(function () {
         $("#btn-report").attr("class", "nav-content nav-active");
         $("#btn-result").attr("class", "nav-content");
         $("#btn-result>span").attr("class", "fas fa-angle-down");
-        $("main").attr("style", "");
+        $("main").removeAttr("style");
+        $(".spinner-content").removeAttr("style");
         if (firstClick) {
-            $(".content-default p").attr("style", "");
+            $(".content-default p").removeAttr("style");
         }
-        $(".footer-content").attr("style", "");
+        $(".footer-content").removeAttr("style");
     }
     for (var i = 1; i <= $("#nav-2>ul>li").length; i++) {
         if ($("#nav-2>ul>li:nth-child(" + i + ")").attr("class") === "nav-2-content-active") {
@@ -46,11 +47,13 @@ $("#btn-report").click(function () {
     $("#nav-2").animate({
         height: 'hide'
     }, 350);
-    
-    //
-    $.get(window.location.href + "report.jsp", function (result) {
-        $("#container").html(result);
-    });
+    $(".spinner").attr("style", "display: flex");
+    setTimeout(function () {
+        $(".spinner").attr("style", "display: none");
+        //ajax here
+        $("#container").load(window.location.href + "report.jsp");
+        $("footer").attr("style", "position: static; bottom: auto");
+    }, 300);
 });
 
 $("#nav-2>ul>li").click(function () {
@@ -113,7 +116,7 @@ $(".btn-close").click(function () {
     $("#modal, #notify-modal").fadeOut();
     $(".modal-body>input").val("");
     setTimeout(function () {
-        $(".modal-body h1").attr("style", "");
+        $(".modal-body h1").removeAttr("style");
     }, 500);
 });
 
