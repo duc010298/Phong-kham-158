@@ -14,11 +14,10 @@ $("#btn-result").click(function () {
     } else {
         $("#btn-result").attr("class", "nav-content");
         $("#btn-result>span").attr("class", "fas fa-angle-down");
-        $("main, .spinner-content").removeAttr("style");
+        $("main, .spinner-content, .footer-content").removeAttr("style");
         if (firstClick) {
             $(".content-default p").removeAttr("style");
         }
-        $(".footer-content").removeAttr("style");
     }
     $("#nav-2").animate({
         height: 'toggle'
@@ -30,12 +29,10 @@ $("#btn-report").click(function () {
         $("#btn-report").attr("class", "nav-content nav-active");
         $("#btn-result").attr("class", "nav-content");
         $("#btn-result>span").attr("class", "fas fa-angle-down");
-        $("main").removeAttr("style");
-        $(".spinner-content").removeAttr("style");
+        $("main, .spinner-content, .footer-content, footer").removeAttr("style");
         if (firstClick) {
             $(".content-default p").removeAttr("style");
         }
-        $(".footer-content").removeAttr("style");
     }
     for (var i = 1; i <= $("#nav-2>ul>li").length; i++) {
         if ($("#nav-2>ul>li:nth-child(" + i + ")").attr("class") === "nav-2-content-active") {
@@ -49,10 +46,9 @@ $("#btn-report").click(function () {
     }, 350);
     $(".spinner").attr("style", "display: flex");
     setTimeout(function () {
-        $(".spinner").attr("style", "display: none");
         //ajax here
         $("#container").load(window.location.href + "report.jsp");
-        $("footer").attr("style", "position: static; bottom: auto");
+        $(".spinner").attr("style", "display: none");
     }, 300);
 });
 
@@ -121,6 +117,7 @@ $(".btn-close").click(function () {
 });
 
 $("#btn-acept-save").click(function () {
+    notify("Thông báo", "Đang xử lí");
     var totalInput = (($("td").length / 2) - 2) / 2;
     var indexOfResult = Math.floor(totalInput);
     var Name = $("#input0").val();

@@ -113,3 +113,10 @@
         </tr>  
     </table>
 </div>
+<script>
+    if ($(".display-result-content tr").length > 10) {
+        $("footer").attr("style", "position: static; bottom: auto");
+    } else {
+        $("footer").removeAttr("style");
+    }
+</script>

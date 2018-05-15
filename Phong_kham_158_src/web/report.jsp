@@ -71,9 +71,6 @@
 </div>
 
 <script>
-    //ajax here
-    $("#display-result").load(window.location.href + "resultOfSearch.jsp");
-    
     $("*").click(function () {
         $(".autoComplete").removeAttr("style");
     });
