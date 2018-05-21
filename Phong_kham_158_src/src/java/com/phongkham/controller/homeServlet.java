@@ -3,8 +3,6 @@ package com.phongkham.controller;
 import com.phongkham.dao.nav2Dao;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +22,9 @@ public class homeServlet extends HttpServlet {
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/index.jsp");
             dispatch.forward(request, response);
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(homeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("content", ex);
+            RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/error.jsp");
+            dispatch.forward(request, response);
         }
     }
 

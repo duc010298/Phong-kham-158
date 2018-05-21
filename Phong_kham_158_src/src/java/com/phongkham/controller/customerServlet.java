@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,14 +29,14 @@ public class customerServlet extends HttpServlet {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String strExpectedDOB = request.getParameter("ExpectedDOB");
                 Date ExpectedDOB;
-                if(strExpectedDOB.equals("NULL")) {
+                if (strExpectedDOB.equals("NULL")) {
                     ExpectedDOB = null;
                 } else {
                     ExpectedDOB = formatter.parse(strExpectedDOB);
                 }
                 String Result = request.getParameter("Result");
                 String Note = request.getParameter("Note");
-                if(Note.equals("NULL")) {
+                if (Note.equals("NULL")) {
                     Note = null;
                 }
 
@@ -61,7 +59,9 @@ public class customerServlet extends HttpServlet {
                 }
 
             } catch (ParseException ex) {
-                Logger.getLogger(customerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("content", ex);
+                RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/error.jsp");
+                dispatch.forward(request, response);
             }
         }
 

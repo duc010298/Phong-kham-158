@@ -50,6 +50,7 @@ $("#btn-report").click(function () {
         $("#container").load(window.location.href + "report.jsp");
         $(".spinner").attr("style", "display: none");
     }, 300);
+    firstClick = true;
 });
 
 $("#nav-2>ul>li").click(function () {
