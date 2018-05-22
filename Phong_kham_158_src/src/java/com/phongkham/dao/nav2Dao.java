@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class nav2Dao {
 
@@ -30,7 +32,8 @@ public class nav2Dao {
                 nav2List.add(content);
             }
             return nav2List;
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

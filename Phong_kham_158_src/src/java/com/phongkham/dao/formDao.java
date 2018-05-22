@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class formDao {
 
@@ -34,6 +36,7 @@ public class formDao {
             }
             return formList;
         } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -51,6 +54,7 @@ public class formDao {
             }
             return formId;
         } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
