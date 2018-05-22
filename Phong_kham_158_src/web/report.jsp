@@ -159,15 +159,23 @@
                 }
             }
         }
-        if(event.which == 13) {
+        if (event.which == 13) {
             for (var i = 0; i < autoItemLength; i++) {
                 var classCurr = $(autoId + " #input-item-" + i).attr("class");
-                if(classCurr == "input-item input-item-active") {
+                if (classCurr == "input-item input-item-active") {
                     var value = $(autoId + " #input-item-" + i).html();
                     $("#" + thisId).val(value);
                     break;
                 }
             }
+            $(".autoInput").removeAttr("style");
         }
+    });
+
+    $(".input-item").click(function () {
+        var parentId = $(this).parent().attr("id");
+        var value = $(this).html();
+        var inpId = parentId.substring(5, parentId.length);
+        $("#"+inpId).val(value);
     });
 </script>
