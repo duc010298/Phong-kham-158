@@ -45,53 +45,23 @@
             <p>Ghi chú</p>
             <div class="inputNameArea">
                 <input type="text" id="inputName" placeholder="Nhập họ và tên" name="inputName">
-                <div id="auto-inputName" class="autoInput">
-                    <div id="input-item-0" class="input-item">Nguyễn Văn A</div>
-                    <div id="input-item-1" class="input-item">Nguyễn Văn B</div>
-                    <div id="input-item-2" class="input-item">Nguyễn Văn C</div>
-                    <div id="input-item-3" class="input-item">Nguyễn Văn D</div>
-                    <div id="input-item-4" class="input-item">Nguyễn Văn E</div>
-                </div>
+                <div id="auto-inputName" class="autoInput"></div>
             </div>
             <div class="inputAgeArea">
                 <input type="text" id="inputAge" placeholder="Nhập tuổi" name="inputAge">
-                <div id="auto-inputAge" class="autoInput">
-                    <div id="input-item-0" class="input-item">Nguyễn Văn A</div>
-                    <div id="input-item-1" class="input-item">Nguyễn Văn B</div>
-                    <div id="input-item-2" class="input-item">Nguyễn Văn C</div>
-                    <div id="input-item-3" class="input-item">Nguyễn Văn D</div>
-                    <div id="input-item-4" class="input-item">Nguyễn Văn E</div>
-                </div>
+                <div id="auto-inputAge" class="autoInput"></div>
             </div>
             <div class="inputAdressArea">
                 <input type="text" id="inputAddress" placeholder="Nhập địa chỉ" name="inputAddress">
-                <div id="auto-inputAddress" class="autoInput">
-                    <div id="input-item-0" class="input-item">Nguyễn Văn A</div>
-                    <div id="input-item-1" class="input-item">Nguyễn Văn B</div>
-                    <div id="input-item-2" class="input-item">Nguyễn Văn C</div>
-                    <div id="input-item-3" class="input-item">Nguyễn Văn D</div>
-                    <div id="input-item-4" class="input-item">Nguyễn Văn E</div>
-                </div>
+                <div id="auto-inputAddress" class="autoInput"></div>
             </div>
             <div class="inputDayVisitArea">
                 <input type="text" id="inputDayVisit" placeholder="dd/MM/yyy" name="inputDayVisit">
-                <div id="auto-inputDayVisit" class="autoInput">
-                    <div id="input-item-0" class="input-item">Nguyễn Văn A</div>
-                    <div id="input-item-1" class="input-item">Nguyễn Văn B</div>
-                    <div id="input-item-2" class="input-item">Nguyễn Văn C</div>
-                    <div id="input-item-3" class="input-item">Nguyễn Văn D</div>
-                    <div id="input-item-4" class="input-item">Nguyễn Văn E</div>
-                </div>
+                <div id="auto-inputDayVisit" class="autoInput"></div>
             </div>
             <div class="inputNoteArea">
                 <input type="text" id="inputNote" placeholder="Nhập ghi chú" name="inputNote">
-                <div id="auto-inputNote" class="autoInput">
-                    <div id="input-item-0" class="input-item">Nguyễn Văn A</div>
-                    <div id="input-item-1" class="input-item">Nguyễn Văn B</div>
-                    <div id="input-item-2" class="input-item">Nguyễn Văn C</div>
-                    <div id="input-item-3" class="input-item">Nguyễn Văn D</div>
-                    <div id="input-item-4" class="input-item">Nguyễn Văn E</div>
-                </div>
+                <div id="auto-inputNote" class="autoInput"></div>
             </div>
         </div>
         <hr>
@@ -105,6 +75,38 @@
     </div>
 </div>
 <script>
+    function importIntoAuto(json, autoId) {
+        var length = json.content.length;
+        if (length == 0) {
+            return;
+        }
+        var count = 0;
+        var str = "";
+        while (true) {
+            if (count == length || count == 15) {
+                break;
+            }
+            str += "<div id=\"input-item-";
+            str += count;
+            str += "\" class=\"input-item\">";
+            str += json.content[count];
+            str += "</div>";
+            count++;
+        }
+        $(autoId).html(str);
+        var autoItemLength = $(autoId + " div").length;
+        for (var i = 0; i < autoItemLength; i++) {
+            $(autoId + " #input-item-" + i).attr("class", "input-item");
+        }
+        $(autoId + " #input-item-0").attr("class", "input-item input-item-active");
+        $(".input-item").click(function () {
+            var parentId = $(this).parent().attr("id");
+            var value = $(this).html();
+            var inpId = parentId.substring(5, parentId.length);
+            $("#" + inpId).val(value);
+        });
+    }
+
     document.addEventListener("click", function () {
         $(".autoInput").removeAttr("style");
     });
@@ -113,14 +115,17 @@
         var thisId = $(this).attr("id");
         var autoId = "#auto-" + thisId;
         var value = $(this).val();
-        console.log(value);
-        //ajax here
-
-        var autoItemLength = $(autoId + " div").length;
-        for (var i = 0; i < autoItemLength; i++) {
-            $(autoId + " #input-item-" + i).attr("class", "input-item");
-        }
-        $(autoId + " #input-item-0").attr("class", "input-item input-item-active");
+        $.ajax({
+            url: window.location.href + "customer?tasks=searchContent",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                search: thisId,
+                value: value
+            }
+        }).done(function (result) {
+            importIntoAuto(result, autoId);
+        });
         $(autoId).attr("style", "display: block");
     });
 
@@ -170,12 +175,5 @@
             }
             $(".autoInput").removeAttr("style");
         }
-    });
-
-    $(".input-item").click(function () {
-        var parentId = $(this).parent().attr("id");
-        var value = $(this).html();
-        var inpId = parentId.substring(5, parentId.length);
-        $("#"+inpId).val(value);
     });
 </script>

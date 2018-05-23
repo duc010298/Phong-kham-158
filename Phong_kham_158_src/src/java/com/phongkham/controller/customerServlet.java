@@ -3,8 +3,10 @@ package com.phongkham.controller;
 import com.phongkham.dao.customerDao;
 import com.phongkham.model.Customer;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,13 +53,14 @@ public class customerServlet extends HttpServlet {
 
                 customerDao cusDao = new customerDao();
                 if (cusDao.addCustomer(cus)) {
-                    RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/statusAdd.jsp?add=success");
-                    dispatch.forward(request, response);
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("Lưu thành công");
+                    }
                 } else {
-                    RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/statusAdd.jsp?add=error");
-                    dispatch.forward(request, response);
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("Lỗi: Lưu không thành công");
+                    }
                 }
-
             } catch (ParseException ex) {
                 request.setAttribute("content", ex);
                 RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/error.jsp");
@@ -65,6 +68,31 @@ public class customerServlet extends HttpServlet {
             }
         }
 
+        if (tasks.equals("searchContent")) {
+            String search = request.getParameter("search");
+            String value = request.getParameter("value");
+            customerDao cusDao = new customerDao();
+            ArrayList<String> list = new ArrayList<>();
+            String str = "";
+            if (search.equals("inputName")) {
+                list = cusDao.searchName(value);
+
+            }
+            if (!list.isEmpty()) {
+                str += "{";
+                str += "\"content\":[";
+                for (int i = 0; i < list.size() - 1; i++) {
+                    str += "\"" + list.get(i) + "\"" + ",";
+                }
+                str += "\"" + list.get(list.size() - 1) + "\"";
+                str += "]}";
+            } else {
+                str += "{\"content\":[]}";
+            }
+            try (PrintWriter out = response.getWriter()) {
+                out.println(str);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

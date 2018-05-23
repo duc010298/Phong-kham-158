@@ -5,7 +5,9 @@ import com.phongkham.util.DBConn;
 import com.phongkham.util.MyUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,6 +60,22 @@ public class customerDao {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
 
+    public ArrayList<String> searchName(String value) {
+        String qry = "SELECT Name FROM Customer WHERE Name LIKE ?";
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            PreparedStatement preSta = conn.prepareStatement(qry);
+            preSta.setNString(1, "%" + value + "%");
+            ResultSet rs = preSta.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getNString("Name"));
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }
