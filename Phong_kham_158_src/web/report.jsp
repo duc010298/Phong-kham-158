@@ -39,7 +39,7 @@
         <hr>
         <div class="search-body">
             <p>Họ và tên</p>
-            <p>Tuổi</p>
+            <p>Năm sinh / Tuổi</p>
             <p>Địa chỉ</p>
             <p>Ngày đến khám</p>
             <p>Ghi chú</p>
@@ -75,41 +75,46 @@
     </div>
 </div>
 <script>
-    function importIntoAuto(json, autoId) {
+    document.addEventListener("click", function () {
+        $(".autoInput").removeAttr("style");
+    });
+
+    function importIntoAuto(json, value, autoId) {
         var length = json.content.length;
         if (length == 0) {
             return;
         }
+        value = value.toLowerCase();
         var count = 0;
         var str = "";
         while (true) {
             if (count == length || count == 15) {
                 break;
             }
+            var jsonContent = json.content[count];
+            var indexStart = jsonContent.toLowerCase().indexOf(value);
+            var indexEnd = indexStart + value.length;
             str += "<div id=\"input-item-";
             str += count;
-            str += "\" class=\"input-item\">";
-            str += json.content[count];
+            str += "\" class=\"input-item\" name=\"";
+            str += jsonContent;
+            str += "\">";
+            str += jsonContent.substring(0, indexStart);
+            str += "<strong>";
+            str += jsonContent.substring(indexStart, indexEnd);
+            str += "</strong>";
+            str += jsonContent.substring(indexEnd);
             str += "</div>";
             count++;
         }
         $(autoId).html(str);
-        var autoItemLength = $(autoId + " div").length;
-        for (var i = 0; i < autoItemLength; i++) {
-            $(autoId + " #input-item-" + i).attr("class", "input-item");
-        }
-        $(autoId + " #input-item-0").attr("class", "input-item input-item-active");
         $(".input-item").click(function () {
             var parentId = $(this).parent().attr("id");
-            var value = $(this).html();
+            var value = $(this).attr("name");
             var inpId = parentId.substring(5, parentId.length);
             $("#" + inpId).val(value);
         });
     }
-
-    document.addEventListener("click", function () {
-        $(".autoInput").removeAttr("style");
-    });
 
     $(".search-body input").on('input', function () {
         var thisId = $(this).attr("id");
@@ -124,7 +129,7 @@
                 value: value
             }
         }).done(function (result) {
-            importIntoAuto(result, autoId);
+            importIntoAuto(result, value, autoId);
         });
         $(autoId).attr("style", "display: block");
     });
@@ -134,31 +139,33 @@
         var autoId = "#auto-" + thisId;
         var autoItemLength = $(autoId + " div").length;
         if (event.which == 40) {
+            var isActive = false;
             for (var i = 0; i < autoItemLength; i++) {
                 var classCurr = $(autoId + " #input-item-" + i).attr("class");
                 if (classCurr == "input-item input-item-active") {
-                    $(autoId + " #input-item-" + i).attr("class", "input-item");
+                    isActive = true;
                     var j = i + 1;
                     if (j == autoItemLength) {
-                        $(autoId + " #input-item-0").attr("class", "input-item input-item-active");
                         break;
                     }
+                    $(autoId + " #input-item-" + i).attr("class", "input-item");
                     $(autoId + " #input-item-" + j).attr("class", "input-item input-item-active");
                     break;
                 }
+            }
+            if (!isActive) {
+                $(autoId + " #input-item-0").attr("class", "input-item input-item-active");
             }
         }
         if (event.which == 38) {
             for (var i = 0; i < autoItemLength; i++) {
                 var classCurr = $(autoId + " #input-item-" + i).attr("class");
                 if (classCurr == "input-item input-item-active") {
-                    $(autoId + " #input-item-" + i).attr("class", "input-item");
                     var j = i - 1;
                     if (j < 0) {
-                        var temp = autoItemLength - 1;
-                        $(autoId + " #input-item-" + temp).attr("class", "input-item input-item-active");
                         break;
                     }
+                    $(autoId + " #input-item-" + i).attr("class", "input-item");
                     $(autoId + " #input-item-" + j).attr("class", "input-item input-item-active");
                     break;
                 }
@@ -168,7 +175,7 @@
             for (var i = 0; i < autoItemLength; i++) {
                 var classCurr = $(autoId + " #input-item-" + i).attr("class");
                 if (classCurr == "input-item input-item-active") {
-                    var value = $(autoId + " #input-item-" + i).html();
+                    var value = $(autoId + " #input-item-" + i).attr("name");
                     $("#" + thisId).val(value);
                     break;
                 }

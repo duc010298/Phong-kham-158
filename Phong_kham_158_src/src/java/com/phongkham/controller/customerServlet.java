@@ -76,7 +76,15 @@ public class customerServlet extends HttpServlet {
             String str = "";
             if (search.equals("inputName")) {
                 list = cusDao.searchName(value);
-
+            }
+            if (search.equals("inputAge")) {
+                list = cusDao.searchAge(value);
+            }
+            if (search.equals("inputAddress")) {
+                list = cusDao.searchAddress(value);
+            }
+            if (search.equals("inputNote")) {
+                list = cusDao.searchNote(value);
             }
             if (!list.isEmpty()) {
                 str += "{";

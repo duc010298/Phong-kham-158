@@ -63,13 +63,13 @@ public class customerDao {
     }
 
     public ArrayList<String> searchName(String value) {
-        String qry = "SELECT Name FROM Customer WHERE Name LIKE ?";
+        String qry = "SELECT Name FROM Customer WHERE Name LIKE ? GROUP BY Name";
         ArrayList<String> list = new ArrayList<>();
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
             preSta.setNString(1, "%" + value + "%");
             ResultSet rs = preSta.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(rs.getNString("Name"));
             }
             return list;
@@ -78,4 +78,59 @@ public class customerDao {
             return null;
         }
     }
+
+    public ArrayList<String> searchAge(String value) {
+        String qry = "SELECT YOB FROM Customer WHERE YOB LIKE ? GROUP BY YOB";
+        ArrayList<String> list = new ArrayList<>();
+        int YOB = Integer.parseInt(value);
+        try {
+            PreparedStatement preSta = conn.prepareStatement(qry);
+            preSta.setNString(1, "%" + YOB + "%");
+            ResultSet rs = preSta.executeQuery();
+            while (rs.next()) {
+                int result = rs.getInt("YOB");
+                String tempStr = String.valueOf(result);
+                list.add(tempStr);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public ArrayList<String> searchAddress(String value) {
+        String qry = "SELECT AddressCus FROM Customer WHERE AddressCus LIKE ? GROUP BY AddressCus";
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            PreparedStatement preSta = conn.prepareStatement(qry);
+            preSta.setNString(1, "%" + value + "%");
+            ResultSet rs = preSta.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getNString("AddressCus"));
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public ArrayList<String> searchNote(String value) {
+        String qry = "SELECT Note FROM Customer WHERE Note LIKE ? GROUP BY Note";
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            PreparedStatement preSta = conn.prepareStatement(qry);
+            preSta.setNString(1, "%" + value + "%");
+            ResultSet rs = preSta.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getNString("Note"));
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
 }
