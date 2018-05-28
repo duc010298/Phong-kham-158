@@ -81,9 +81,6 @@
 
     function importIntoAuto(json, value, autoId) {
         var length = json.content.length;
-        if (length == 0) {
-            return;
-        }
         value = value.toLowerCase();
         var count = 0;
         var str = "";
