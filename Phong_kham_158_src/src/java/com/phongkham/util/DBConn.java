@@ -12,18 +12,16 @@ public class DBConn {
     public static Connection getConnection() {
 
         String IP = "localhost";
-        String instanceName = "MSSQLSERVER";
-        String port = "1433";
+        String port = "3306";
         String database = "phongkham";
-        String userID = "sa";
+        String userID = "duc010298";
         String password = "12345";
 
-        String url = "jdbc:sqlserver://" + IP + "\\" + instanceName + ":" + port
-                + ";databaseName=" + database + ";user=" + userID + ";password=" + password;
+        String url = "jdbc:mysql://" + IP + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection conn = DriverManager.getConnection(url);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(url, userID, password);
             return conn;
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);

@@ -37,8 +37,8 @@ INSERT INTO KetQuaSieuAm VALUES (11, 'Vú', 11, 4);
 
 CREATE TABLE KetQuaSieuAm_Content (
 	OrderNumber INT,
-	Class1 NVARCHAR(250),
-	Class2 NVARCHAR(250),
+	Class1 VARCHAR(250),
+	Class2 VARCHAR(250),
 	KqsaId INT,
 	PRIMARY KEY(OrderNumber, KqsaId),
 	FOREIGN KEY (KqsaId) REFERENCES KetQuaSieuAm(ID)

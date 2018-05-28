@@ -29,7 +29,7 @@ public class customerDao {
         String Result = cus.getResult();
         String Note = cus.getNote();
 
-        String qry = "INSERT INTO Customer VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String qry = "INSERT INTO Customer VALUES(null, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
