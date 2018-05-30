@@ -31,14 +31,14 @@ public class customerServlet extends HttpServlet {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String strExpectedDOB = request.getParameter("ExpectedDOB");
                 Date ExpectedDOB;
-                if (strExpectedDOB.equals("NULL")) {
+                if (strExpectedDOB.equals("")) {
                     ExpectedDOB = null;
                 } else {
                     ExpectedDOB = formatter.parse(strExpectedDOB);
                 }
                 String Result = request.getParameter("Result");
                 String Note = request.getParameter("Note");
-                if (Note.equals("NULL")) {
+                if (Note.equals("")) {
                     Note = null;
                 }
 
@@ -100,6 +100,9 @@ public class customerServlet extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 out.println(str);
             }
+        }
+        if (tasks.equals("search")) {
+            
         }
     }
 

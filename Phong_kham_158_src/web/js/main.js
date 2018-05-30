@@ -150,27 +150,18 @@ $("#btn-acept-save").click(function () {
         notify("Lỗi", "Chưa nhập địa chỉ");
         return;
     }
-    var ExpectedDOB;
-    if ($("#ExpectedDOB").val() == "") {
-        ExpectedDOB = "NULL";
-    } else {
-        ExpectedDOB = $("#ExpectedDOB").val();
-        if (!validateDate(ExpectedDOB)) {
-            notify("Lỗi", "Ngày sinh dự kiến không được nhập chính xác");
-            return;
-        }
+    var ExpectedDOB = $("#ExpectedDOB").val();
+    ExpectedDOB = $("#ExpectedDOB").val();
+    if (!validateDate(ExpectedDOB) && ExpectedDOB != "") {
+        notify("Lỗi", "Ngày sinh dự kiến không được nhập chính xác");
+        return;
     }
     var Result = $("#input" + indexOfResult).val();
     if (typeof (Result) === "undefined") {
         indexOfResult--;
         Result = $("#input" + indexOfResult).val();
     }
-    var Note;
-    if ($("#Note").val() === "") {
-        Note = "NULL";
-    } else {
-        Note = $("#Note").val();
-    }
+    var Note = $("#Note").val();
 
     $.ajax({
         url: window.location.href + "customer?tasks=add",

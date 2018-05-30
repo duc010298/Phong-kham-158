@@ -66,8 +66,8 @@
         </div>
         <hr>
         <div class="search-footer">
-            <div class="btn-reload-search"><span class="fas fa-sync-alt"></span> Nhập lại</div>
-            <div class="btn-search"><span class="fas fa-search"></span> Tìm kiếm</div>
+            <div class="btn-reload-search" id="btn-reload-search"><span class="fas fa-sync-alt"></span> Nhập lại</div>
+            <div class="btn-search" id="btn-search"><span class="fas fa-search"></span> Tìm kiếm</div>
         </div>
     </div>
     <div class="display-result" id="display-result">
@@ -200,5 +200,31 @@
             }
             $(".autoInput").removeAttr("style");
         }
+    });
+
+    $("#btn-reload-search").click(function () {
+        $(".search-body input").val("");
+    });
+
+    $("#btn-search").click(function () {
+        var name = $("#inputName").val();
+        var age = $("#inputAge").val();
+        var address = $("#inputAddress").val();
+        var dayVisit = $("#inputDayVisit").val();
+        var note = $("#inputNote").val();
+        $.ajax({
+            url: window.location.href + "customer?tasks=search",
+            type: 'POST',
+            dataType: 'html',
+            data: {
+                name: name,
+                age: age,
+                address: address,
+                dayVisit: dayVisit,
+                note: note
+            }
+        }).done(function (result) {
+
+        });
     });
 </script>
