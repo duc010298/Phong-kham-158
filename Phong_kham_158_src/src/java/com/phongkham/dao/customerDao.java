@@ -132,5 +132,11 @@ public class customerDao {
             return null;
         }
     }
+    
+    public ArrayList<Customer> search(String name, String age, String address, String dayVisit, String note) {
+        String qry = "";
+        
+        return null;
+    }
 
 }

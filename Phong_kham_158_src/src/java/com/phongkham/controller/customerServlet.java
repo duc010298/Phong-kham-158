@@ -2,6 +2,7 @@ package com.phongkham.controller;
 
 import com.phongkham.dao.customerDao;
 import com.phongkham.model.Customer;
+import com.phongkham.util.MyUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -73,7 +74,6 @@ public class customerServlet extends HttpServlet {
             String value = request.getParameter("value");
             customerDao cusDao = new customerDao();
             ArrayList<String> list = new ArrayList<>();
-            String str = "";
             if (search.equals("inputName")) {
                 list = cusDao.searchName(value);
             }
@@ -86,23 +86,17 @@ public class customerServlet extends HttpServlet {
             if (search.equals("inputNote")) {
                 list = cusDao.searchNote(value);
             }
-            if (!list.isEmpty()) {
-                str += "{";
-                str += "\"content\":[";
-                for (int i = 0; i < list.size() - 1; i++) {
-                    str += "\"" + list.get(i) + "\"" + ",";
-                }
-                str += "\"" + list.get(list.size() - 1) + "\"";
-                str += "]}";
-            } else {
-                str += "{\"content\":[]}";
-            }
+            String str = MyUtil.listStrToJson(list);
             try (PrintWriter out = response.getWriter()) {
                 out.println(str);
             }
         }
         if (tasks.equals("search")) {
-            
+            String name = request.getParameter("name");
+            String age = request.getParameter("age");
+            String address = request.getParameter("address");
+            String dayVisit = request.getParameter("dayVisit");
+            String note = request.getParameter("note");
         }
     }
 
