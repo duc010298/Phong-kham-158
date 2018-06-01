@@ -19,6 +19,7 @@
             <th class="result">Kết quả</th>
             <th class="Note">Ghi chú</th>
         </tr>
+        <%if (listCus != null) {%>
         <%for (Customer cus : listCus) {%>
         <tr>
             <td><%=count++%></td>
@@ -41,6 +42,7 @@
             <td><%=cus.getNote()%></td>
             <%}%>
         </tr>
+        <%}%>
         <%}%>
     </table>
 </div>

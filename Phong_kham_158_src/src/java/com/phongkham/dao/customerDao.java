@@ -122,13 +122,17 @@ public class customerDao {
         int age = content.getAge();
         String address = content.getAddress();
         Date dayVisit = content.getDayVisit();
+        if(name == null && age == 0 && address == null && dayVisit == null) {
+            return null;
+        }
         java.sql.Date sDayVisit = null;
         boolean notFirstValue = false;
-        String qry = "SELECT DayVisit, Name, YOB, AddressCus, ExpectedDOB, Result, Note FROM Customer WHERE ";
+        String qry = "SELECT DayVisit, Name, YOB, AddressCus, ExpectedDOB, Result, Note FROM Customer ";
         if (name != null) {
             if (notFirstValue) {
                 qry += "AND ";
             } else {
+                qry += "WHERE ";
                 notFirstValue = true;
             }
             qry += "Name LIKE ? ";
@@ -137,6 +141,7 @@ public class customerDao {
             if (notFirstValue) {
                 qry += "AND ";
             } else {
+                qry += "WHERE ";
                 notFirstValue = true;
             }
             qry += "YOB = ? ";
@@ -145,6 +150,7 @@ public class customerDao {
             if (notFirstValue) {
                 qry += "AND ";
             } else {
+                qry += "WHERE ";
                 notFirstValue = true;
             }
             qry += "AddressCus LIKE ?";
@@ -153,12 +159,15 @@ public class customerDao {
             if (notFirstValue) {
                 qry += "AND ";
             } else {
+                qry += "WHERE ";
                 notFirstValue = true;
             }
             qry += "DayVisit BETWEEN ? AND NOW() ";
             sDayVisit = MyUtil.convertUtilToSql(dayVisit);
+            qry += "ORDER BY DayVisit ASC";
+        } else {
+            qry += "ORDER BY DayVisit DESC";
         }
-        qry += "ORDER BY DayVisit DESC";
         ArrayList<Customer> listCus = new ArrayList<>();
         int count = 1;
         try {
