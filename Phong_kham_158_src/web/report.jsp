@@ -41,8 +41,7 @@
             <p>Họ và tên</p>
             <p>Năm sinh / Tuổi</p>
             <p>Địa chỉ</p>
-            <p>Ngày đến khám</p>
-            <p>Ghi chú</p>
+            <p>Tìm theo ngày</p>
             <div class="inputNameArea">
                 <input type="text" id="inputName" placeholder="Nhập họ và tên" name="inputName">
                 <div id="auto-inputName" class="autoInput"></div>
@@ -58,10 +57,6 @@
             <div class="inputDayVisitArea">
                 <input type="text" id="inputDayVisit" placeholder="dd/MM/yyy" name="inputDayVisit">
                 <div id="auto-inputDayVisit" class="autoInput"></div>
-            </div>
-            <div class="inputNoteArea">
-                <input type="text" id="inputNote" placeholder="Nhập ghi chú" name="inputNote">
-                <div id="auto-inputNote" class="autoInput"></div>
             </div>
         </div>
         <hr>
@@ -211,7 +206,6 @@
         var age = $("#inputAge").val();
         var address = $("#inputAddress").val();
         var dayVisit = $("#inputDayVisit").val();
-        var note = $("#inputNote").val();
         $.ajax({
             url: window.location.href + "customer?tasks=search",
             type: 'POST',
@@ -221,10 +215,9 @@
                 age: age,
                 address: address,
                 dayVisit: dayVisit,
-                note: note
             }
         }).done(function (result) {
-            
+            $("#display-result").html(result);
         });
     });
 </script>

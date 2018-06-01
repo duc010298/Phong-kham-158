@@ -1,6 +1,7 @@
 package com.phongkham.dao;
 
 import com.phongkham.model.Customer;
+import com.phongkham.model.searchCustomer;
 import com.phongkham.util.DBConn;
 import com.phongkham.util.MyUtil;
 import java.sql.Connection;
@@ -116,27 +117,91 @@ public class customerDao {
         }
     }
 
-    public ArrayList<String> searchNote(String value) {
-        String qry = "SELECT Note FROM Customer WHERE Note LIKE ? GROUP BY Note";
-        ArrayList<String> list = new ArrayList<>();
+    public ArrayList<Customer> search(searchCustomer content) {
+        String name = content.getName();
+        int age = content.getAge();
+        String address = content.getAddress();
+        Date dayVisit = content.getDayVisit();
+        java.sql.Date sDayVisit = null;
+        boolean notFirstValue = false;
+        String qry = "SELECT DayVisit, Name, YOB, AddressCus, ExpectedDOB, Result, Note FROM Customer WHERE ";
+        if (name != null) {
+            if (notFirstValue) {
+                qry += "AND ";
+            } else {
+                notFirstValue = true;
+            }
+            qry += "Name LIKE ? ";
+        }
+        if (age != 0) {
+            if (notFirstValue) {
+                qry += "AND ";
+            } else {
+                notFirstValue = true;
+            }
+            qry += "YOB = ? ";
+        }
+        if (address != null) {
+            if (notFirstValue) {
+                qry += "AND ";
+            } else {
+                notFirstValue = true;
+            }
+            qry += "AddressCus LIKE ?";
+        }
+        if (dayVisit != null) {
+            if (notFirstValue) {
+                qry += "AND ";
+            } else {
+                notFirstValue = true;
+            }
+            qry += "DayVisit BETWEEN ? AND NOW() ";
+            sDayVisit = MyUtil.convertUtilToSql(dayVisit);
+        }
+        qry += "ORDER BY DayVisit DESC";
+        ArrayList<Customer> listCus = new ArrayList<>();
+        int count = 1;
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
-            preSta.setNString(1, "%" + value + "%");
+            if (name != null) {
+                preSta.setNString(count, "%" + name + "%");
+                count++;
+            }
+            if (age != 0) {
+                preSta.setInt(count, age);
+                count++;
+            }
+            if (address != null) {
+                preSta.setNString(count, "%" + address + "%");
+                count++;
+            }
+            if (dayVisit != null) {
+                preSta.setDate(count, sDayVisit);
+            }
             ResultSet rs = preSta.executeQuery();
             while (rs.next()) {
-                list.add(rs.getNString("Note"));
+                Date resultDayVisit = rs.getDate("DayVisit");
+                String resultName = rs.getString("Name");
+                int resultYOB = rs.getInt("YOB");
+                String resultAddress = rs.getString("AddressCus");
+                Date resultExpectedDOB = rs.getDate("ExpectedDOB");
+                String resultResult = rs.getString("Result");
+                String resultNote = rs.getNString("Note");
+                Customer cus = new Customer();
+                cus.setDayVisit(resultDayVisit);
+                cus.setName(resultName);
+                cus.setYOB(resultYOB);
+                cus.setAddressCus(resultAddress);
+                cus.setExpectedDOB(resultExpectedDOB);
+                cus.setResult(resultResult);
+                cus.setNote(resultNote);
+                listCus.add(cus);
             }
-            return list;
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-    }
-    
-    public ArrayList<Customer> search(String name, String age, String address, String dayVisit, String note) {
-        String qry = "";
-        
-        return null;
+        return listCus;
     }
 
 }

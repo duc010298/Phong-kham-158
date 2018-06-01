@@ -330,7 +330,7 @@ main {
 .search-body {
     margin: 0 0.9375rem;
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto;
 }
 
 .search-body p {

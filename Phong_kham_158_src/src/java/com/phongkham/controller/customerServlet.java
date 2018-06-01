@@ -2,11 +2,11 @@ package com.phongkham.controller;
 
 import com.phongkham.dao.customerDao;
 import com.phongkham.model.Customer;
+import com.phongkham.model.searchCustomer;
 import com.phongkham.util.MyUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.RequestDispatcher;
@@ -24,48 +24,39 @@ public class customerServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String tasks = request.getParameter("tasks");
         if (tasks.equals("add")) {
+            String Name = request.getParameter("Name");
+            int YOB;
             try {
-                String Name = request.getParameter("Name");
-                int YOB = Integer.parseInt(request.getParameter("YOB"));
-                String AddressCus = request.getParameter("AddressCus");
-                Date DayVisit = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                String strExpectedDOB = request.getParameter("ExpectedDOB");
-                Date ExpectedDOB;
-                if (strExpectedDOB.equals("")) {
-                    ExpectedDOB = null;
-                } else {
-                    ExpectedDOB = formatter.parse(strExpectedDOB);
+                YOB = Integer.parseInt(request.getParameter("YOB"));
+            } catch (NumberFormatException ex) {
+                YOB = 0;
+            }
+            String AddressCus = request.getParameter("AddressCus");
+            Date DayVisit = new Date();
+            String strExpectedDOB = request.getParameter("ExpectedDOB");
+            Date ExpectedDOB = MyUtil.convertStrToDate(strExpectedDOB);
+            String Result = request.getParameter("Result");
+            String Note = request.getParameter("Note");
+            if (Note.equals("")) {
+                Note = null;
+            }
+            Customer cus = new Customer();
+            cus.setName(Name);
+            cus.setYOB(YOB);
+            cus.setAddressCus(AddressCus);
+            cus.setDayVisit(DayVisit);
+            cus.setExpectedDOB(ExpectedDOB);
+            cus.setResult(Result);
+            cus.setNote(Note);
+            customerDao cusDao = new customerDao();
+            if (cusDao.addCustomer(cus)) {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("Lưu thành công");
                 }
-                String Result = request.getParameter("Result");
-                String Note = request.getParameter("Note");
-                if (Note.equals("")) {
-                    Note = null;
+            } else {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("Lỗi: Lưu không thành công");
                 }
-
-                Customer cus = new Customer();
-                cus.setName(Name);
-                cus.setYOB(YOB);
-                cus.setAddressCus(AddressCus);
-                cus.setDayVisit(DayVisit);
-                cus.setExpectedDOB(ExpectedDOB);
-                cus.setResult(Result);
-                cus.setNote(Note);
-
-                customerDao cusDao = new customerDao();
-                if (cusDao.addCustomer(cus)) {
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println("Lưu thành công");
-                    }
-                } else {
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println("Lỗi: Lưu không thành công");
-                    }
-                }
-            } catch (ParseException ex) {
-                request.setAttribute("content", ex);
-                RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/error.jsp");
-                dispatch.forward(request, response);
             }
         }
 
@@ -83,9 +74,6 @@ public class customerServlet extends HttpServlet {
             if (search.equals("inputAddress")) {
                 list = cusDao.searchAddress(value);
             }
-            if (search.equals("inputNote")) {
-                list = cusDao.searchNote(value);
-            }
             String str = MyUtil.listStrToJson(list);
             try (PrintWriter out = response.getWriter()) {
                 out.println(str);
@@ -93,10 +81,39 @@ public class customerServlet extends HttpServlet {
         }
         if (tasks.equals("search")) {
             String name = request.getParameter("name");
-            String age = request.getParameter("age");
+            if (name.equals("")) {
+                name = null;
+            }
+            String strAge = request.getParameter("age");
+            int YOB;
+            if (strAge.equals("")) {
+                YOB = 0;
+            } else {
+                try {
+                    YOB = Integer.parseInt(strAge);
+                } catch (NumberFormatException ex) {
+                    YOB = 0;
+                }
+                if (YOB < 100) {
+                    int currYear = Year.now().getValue();
+                    YOB = currYear - YOB;
+                }
+            }
             String address = request.getParameter("address");
-            String dayVisit = request.getParameter("dayVisit");
-            String note = request.getParameter("note");
+            if (address.equals("")) {
+                address = null;
+            }
+            String strDayVisit = request.getParameter("dayVisit");
+            Date dayVisit = MyUtil.convertStrToDate(strDayVisit);
+            searchCustomer content = new searchCustomer();
+            content.setName(name);
+            content.setAge(YOB);
+            content.setAddress(address);
+            content.setDayVisit(dayVisit);
+            customerDao cusDao = new customerDao();
+            request.setAttribute("listCus", cusDao.search(content));
+            RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/resultOfSearch.jsp");
+            dispatch.forward(request, response);
         }
     }
 

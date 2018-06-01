@@ -1,4 +1,12 @@
+<%@page import="java.time.Year"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.phongkham.model.Customer"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%  ArrayList<Customer> listCus = (ArrayList<Customer>) request.getAttribute("listCus");
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    int currYear = Year.now().getValue();
+    int count = 1;%>
 <div class="display-result-content">
     <table>
         <tr>
@@ -11,106 +19,29 @@
             <th class="result">Kết quả</th>
             <th class="Note">Ghi chú</th>
         </tr>
+        <%for (Customer cus : listCus) {%>
         <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
-        <tr>
-            <td>1</td>
-            <td>01/02/2018</td>
-            <td>Nguyễn Thị Bích Phương</td>
-            <td>35</td>
-            <td>Trường Thành</td>
-            <td>05/06/2019</td>
-            <td>01 thai, Thai  tuần  ngày. Cử động thai bình thường.</td>
-            <td>t</td>
-        </tr>  
+            <td><%=count++%></td>
+            <%String dayVisit = formatter.format(cus.getDayVisit());%>
+            <td><%=dayVisit%></td>
+            <td><%=cus.getName()%></td>
+            <%int age = currYear - cus.getYOB();%>
+            <td><%=age%></td>
+            <td><%=cus.getAddressCus()%></td>
+            <%if (cus.getExpectedDOB() == null) {%>
+            <td></td>
+            <%} else {%>
+            <%String expectedDOB = formatter.format(cus.getExpectedDOB());%>
+            <td><%=expectedDOB%></td>
+            <%}%>
+            <td><%=cus.getResult()%></td>
+            <%if (cus.getNote() == null) {%>
+            <td></td>
+            <%} else {%>
+            <td><%=cus.getNote()%></td>
+            <%}%>
+        </tr>
+        <%}%>
     </table>
 </div>
 <script>

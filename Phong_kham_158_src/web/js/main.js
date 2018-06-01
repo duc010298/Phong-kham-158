@@ -204,7 +204,13 @@ $('.modal-body input').keydown(function (e) {
 
 function validateDate(date) {
     //input must be dd/MM/yyyy
-    var arr = date.split("/");
+    //add dd-MM-yyyy (thêm sau)
+    var arr;
+    if(date.indexOf("/") != -1) {
+        arr = date.split("/");
+    } else {
+        arr = date.split("-");
+    }
     if (arr.length !== 3) {
         return false;
     }
