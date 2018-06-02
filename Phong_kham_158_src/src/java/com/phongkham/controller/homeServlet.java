@@ -2,7 +2,6 @@ package com.phongkham.controller;
 
 import com.phongkham.dao.nav2Dao;
 import java.io.IOException;
-import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,16 +15,16 @@ public class homeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            nav2Dao nav2dao = new nav2Dao();
-            request.setAttribute("nav2CtList", nav2dao.getNav2Content());
-            RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/index.jsp");
-            dispatch.forward(request, response);
-        } catch (SQLException | ClassNotFoundException ex) {
-            request.setAttribute("content", ex);
+        nav2Dao nav2dao = new nav2Dao();
+        if (nav2dao.getConnection() == null) {
+            String str = "Không thể kết nối đến cơ sơ dữ liệu";
+            request.setAttribute("content", str);
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/error.jsp");
             dispatch.forward(request, response);
         }
+        request.setAttribute("nav2CtList", nav2dao.getNav2Content());
+        RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/index.jsp");
+        dispatch.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

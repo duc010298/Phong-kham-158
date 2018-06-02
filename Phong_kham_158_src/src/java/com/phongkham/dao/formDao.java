@@ -1,13 +1,12 @@
 package com.phongkham.dao;
 
-import com.phongkham.model.Form;
+import com.phongkham.model.formView;
 import com.phongkham.util.DBConn;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,8 +18,8 @@ public class formDao {
         conn = DBConn.getConnection();
     }
 
-    public List<Form> getFormContent(String Id) {
-        List<Form> formList = new ArrayList<>();
+    public ArrayList<formView> getFormContent(String Id) {
+        ArrayList<formView> formList = new ArrayList<>();
         String qry = "SELECT Class1, Class2 FROM KetQuaSieuAm_Content WHERE KqsaId = ? ORDER BY OrderNumber";
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
@@ -29,7 +28,7 @@ public class formDao {
             while (rs.next()) {
                 String class1 = (rs.getNString("Class1") == null) ? "" : rs.getNString("Class1");
                 String class2 = (rs.getNString("Class2") == null) ? "" : rs.getNString("Class2");
-                Form form = new Form();
+                formView form = new formView();
                 form.setClass1(class1);
                 form.setClass2(class2);
                 formList.add(form);

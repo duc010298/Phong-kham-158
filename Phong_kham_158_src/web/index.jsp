@@ -1,8 +1,5 @@
-<%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.phongkham.model.nav2Content"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%  List<nav2Content> nav2List = (ArrayList<nav2Content>) request.getAttribute("nav2CtList");%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,9 +17,11 @@
             </div>
             <div id="nav-2" class="nav-2">
                 <ul>
-                    <%  for (nav2Content content : nav2List) {%>
-                    <li class="nav-2-content" name="<%=content.getId()%>"><span class="far fa-file-word"></span> <%=content.getName()%></li>
-                        <%}%>
+                    <c:forEach items="${requestScope.nav2CtList}" var="nav2Ct">
+                        <c:if test="${not empty nav2Ct}">
+                            <li class="nav-2-content" name="${nav2Ct.getId()}"><span class="far fa-file-word"></span> ${nav2Ct.getName()}</li>
+                            </c:if>
+                        </c:forEach>
                 </ul>
             </div>
             <div id="tool" class="tool">

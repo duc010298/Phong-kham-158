@@ -25,11 +25,18 @@ public class customerServlet extends HttpServlet {
         String tasks = request.getParameter("tasks");
         if (tasks.equals("add")) {
             String Name = request.getParameter("Name");
-            int YOB;
+            int age;
+            int YOB = 0;
+            int currYear = Year.now().getValue();
             try {
-                YOB = Integer.parseInt(request.getParameter("YOB"));
+                age = Integer.parseInt(request.getParameter("Age"));
             } catch (NumberFormatException ex) {
-                YOB = 0;
+                age = 0;
+            }
+            if (age < 100 && age != 0) {
+                YOB = currYear - age;
+            } else if (age != 0) {
+                YOB = age;
             }
             String AddressCus = request.getParameter("AddressCus");
             Date DayVisit = new Date();

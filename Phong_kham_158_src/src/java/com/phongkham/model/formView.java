@@ -1,6 +1,6 @@
 package com.phongkham.model;
 
-public class Form {
+public class formView {
 
     private String Class1;
     private String Class2;

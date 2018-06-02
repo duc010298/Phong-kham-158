@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,8 +20,9 @@
                 width: 100%;
                 height: 100%;
                 display: flex;
+                background-color: #f0f0f0;
             }
-            
+
             main {
                 margin: auto;
             }
@@ -28,33 +30,32 @@
             h1, h2, p {
                 text-align: center;
             }
-            
+
             h1 {
                 font-size: 50px;
             }
-            
+
             span {
                 color: red;
                 font-size: 100px;
             }
-            
+
             p {
                 font-size: 20px;
             }
         </style>
         <main>
-            <%  String content = (String) request.getAttribute("content"); 
-                if(content == null) {
-                    content = (String) request.getParameter("content"); 
-                }
-            %>
+            <c:set var="message" value="${requestScope.content}"/>
+            <c:if test="${empty message}">
+                <c:set var="message" value="${param.content}"/>
+            </c:if>
             <h1><span class="fas fa-exclamation-circle"></span></h1>
             <br>
             <h1>Xin lỗi, ứng dụng gặp lỗi</h1>
             <br>
             <h2>Liên hệ quản trị viên để khắc phục</h2>
             <br>
-            <p>Chi tiết lỗi: <%=content%></p>
+            <p>Chi tiết lỗi: <c:out value="${message}"/></p>
         </main>
     </body>
 </html>

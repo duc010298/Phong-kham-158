@@ -127,7 +127,6 @@ $("#btn-acept-save").click(function () {
         notify("Lỗi", "Chưa nhập tên");
         return;
     }
-    var YearNow = new Date().getFullYear();
     var AgeString = $("#input1").val();
     var Age = "";
     for (var i = 0; i < AgeString.length; i++) {
@@ -143,7 +142,6 @@ $("#btn-acept-save").click(function () {
         notify("Lỗi", "Chưa nhập tuổi");
         return;
     }
-    var YOB = YearNow - Age;
     var AddressCus = $("#input2").val();
     if (AddressCus === "") {
         $("#modal").fadeOut();
@@ -170,7 +168,6 @@ $("#btn-acept-save").click(function () {
         data: {
             Name: Name,
             Age: Age,
-            YOB: YOB,
             AddressCus: AddressCus,
             ExpectedDOB: ExpectedDOB,
             Result: Result,
@@ -205,7 +202,7 @@ $('.modal-body input').keydown(function (e) {
 function validateDate(date) {
     //input must be dd/MM/yyyy
     var arr;
-    if(date.indexOf("/") != -1) {
+    if (date.indexOf("/") != -1) {
         arr = date.split("/");
     } else {
         arr = date.split("-");

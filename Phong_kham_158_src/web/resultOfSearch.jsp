@@ -1,12 +1,5 @@
-<%@page import="java.time.Year"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.phongkham.model.Customer"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%  ArrayList<Customer> listCus = (ArrayList<Customer>) request.getAttribute("listCus");
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    int currYear = Year.now().getValue();
-    int count = 1;%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="display-result-content">
     <table>
         <tr>
@@ -19,31 +12,22 @@
             <th class="result">Kết quả</th>
             <th class="Note">Ghi chú</th>
         </tr>
-        <%if (listCus != null) {%>
-        <%for (Customer cus : listCus) {%>
-        <tr>
-            <td><%=count++%></td>
-            <%String dayVisit = formatter.format(cus.getDayVisit());%>
-            <td><%=dayVisit%></td>
-            <td><%=cus.getName()%></td>
-            <%int age = currYear - cus.getYOB();%>
-            <td><%=age%></td>
-            <td><%=cus.getAddressCus()%></td>
-            <%if (cus.getExpectedDOB() == null) {%>
-            <td></td>
-            <%} else {%>
-            <%String expectedDOB = formatter.format(cus.getExpectedDOB());%>
-            <td><%=expectedDOB%></td>
-            <%}%>
-            <td><%=cus.getResult()%></td>
-            <%if (cus.getNote() == null) {%>
-            <td></td>
-            <%} else {%>
-            <td><%=cus.getNote()%></td>
-            <%}%>
-        </tr>
-        <%}%>
-        <%}%>
+        <c:set var="count" value="1" scope="page" />
+        <c:forEach items="${requestScope.listCus}" var="cus">
+            <c:if test="${not empty cus}">
+                <tr>
+                    <td>${count}</td>
+                    <td>${cus.getDayVisit()}</td>
+                    <td>${cus.getName()}</td>
+                    <td>${cus.getAge()}</td>
+                    <td>${cus.getAddressCus()}</td>
+                    <td>${cus.getExpectedDOB()}</td>
+                    <td>${cus.getResult()}</td>
+                    <td>${cus.getNote()}</td>
+                </tr>
+                <c:set var="count" value="${count + 1}" scope="page"/>
+            </c:if>
+        </c:forEach>
     </table>
 </div>
 <script>

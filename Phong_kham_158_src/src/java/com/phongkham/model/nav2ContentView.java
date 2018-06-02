@@ -1,6 +1,6 @@
 package com.phongkham.model;
 
-public class nav2Content {
+public class nav2ContentView {
 
     private int Id;
     private String Name;

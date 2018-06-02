@@ -16,7 +16,7 @@ public class formServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         formDao formdao = new formDao();
-        String Id = (String) request.getParameter("Id");
+        String Id = request.getParameter("Id");
         request.setAttribute("formList", formdao.getFormContent(Id));
         RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/form" + formdao.getFormId(Id) + ".jsp");
         dispatch.forward(request, response);

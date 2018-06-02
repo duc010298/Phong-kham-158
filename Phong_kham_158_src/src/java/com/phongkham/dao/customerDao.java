@@ -1,6 +1,7 @@
 package com.phongkham.dao;
 
 import com.phongkham.model.Customer;
+import com.phongkham.model.customerView;
 import com.phongkham.model.searchCustomer;
 import com.phongkham.util.DBConn;
 import com.phongkham.util.MyUtil;
@@ -117,7 +118,7 @@ public class customerDao {
         }
     }
 
-    public ArrayList<Customer> search(searchCustomer content) {
+    public ArrayList<customerView> search(searchCustomer content) {
         String name = content.getName();
         int age = content.getAge();
         String address = content.getAddress();
@@ -168,7 +169,7 @@ public class customerDao {
         } else {
             qry += "ORDER BY DayVisit DESC";
         }
-        ArrayList<Customer> listCus = new ArrayList<>();
+        ArrayList<customerView> listCus = new ArrayList<>();
         int count = 1;
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
@@ -196,10 +197,10 @@ public class customerDao {
                 Date resultExpectedDOB = rs.getDate("ExpectedDOB");
                 String resultResult = rs.getString("Result");
                 String resultNote = rs.getNString("Note");
-                Customer cus = new Customer();
+                customerView cus = new customerView();
                 cus.setDayVisit(resultDayVisit);
                 cus.setName(resultName);
-                cus.setYOB(resultYOB);
+                cus.setAge(resultYOB);
                 cus.setAddressCus(resultAddress);
                 cus.setExpectedDOB(resultExpectedDOB);
                 cus.setResult(resultResult);

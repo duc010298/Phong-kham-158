@@ -2,9 +2,9 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.phongkham.model.Form"%>
+<%@page import="com.phongkham.model.formView"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%  List<Form> formList = (ArrayList<Form>) request.getAttribute("formList");
+<%  List<formView> formList = (ArrayList<formView>) request.getAttribute("formList");
     Date now = new Date();
     SimpleDateFormat day = new SimpleDateFormat("d");
     SimpleDateFormat month = new SimpleDateFormat("M");

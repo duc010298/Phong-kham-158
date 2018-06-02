@@ -182,7 +182,7 @@
                 name: name,
                 age: age,
                 address: address,
-                dayVisit: dayVisit,
+                dayVisit: dayVisit
             }
         }).done(function (result) {
             $("#display-result").html(result);
