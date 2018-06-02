@@ -1,36 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<style>
-    .autoInput {
-        position: absolute;
-        display: none;
-        font-family: Arial;
-        background-color: #FFFFFF;
-        width: 235px;
-        border: 1px solid #d4d4d4;
-        border-radius: 5px;
-    }
-
-    .input-item {
-        padding: 5px;
-        border-bottom: 1px solid #d4d4d4;
-        cursor: pointer;
-        -webkit-user-select: none;
-    }
-
-    .input-item:hover {
-        background-color: #e9e9e9;
-    }
-
-    .input-item-active {
-        background-color: #1E90FF;
-        color: #fff;
-    }
-
-    .input-item-active:hover {
-        background-color: #1E90FF;
-        color: #fff;
-    }
-</style>
 <div class="ultrasonic-report">
     <div class="search">
         <div class="search-header">

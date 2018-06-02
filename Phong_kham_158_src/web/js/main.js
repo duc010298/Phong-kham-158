@@ -204,7 +204,6 @@ $('.modal-body input').keydown(function (e) {
 
 function validateDate(date) {
     //input must be dd/MM/yyyy
-    //add dd-MM-yyyy (thêm sau)
     var arr;
     if(date.indexOf("/") != -1) {
         arr = date.split("/");
