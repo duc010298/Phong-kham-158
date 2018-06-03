@@ -65,7 +65,7 @@ public class customerDao {
     }
 
     public ArrayList<String> searchName(String value) {
-        String qry = "SELECT Name FROM Customer WHERE Name LIKE ? GROUP BY Name";
+        String qry = "SELECT Name FROM Customer WHERE Name LIKE ? GROUP BY Name LIMIT 0, 15";
         ArrayList<String> list = new ArrayList<>();
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
@@ -82,7 +82,7 @@ public class customerDao {
     }
 
     public ArrayList<String> searchAge(String value) {
-        String qry = "SELECT YOB FROM Customer WHERE YOB LIKE ? GROUP BY YOB";
+        String qry = "SELECT YOB FROM Customer WHERE YOB LIKE ? GROUP BY YOB  LIMIT 0, 15";
         ArrayList<String> list = new ArrayList<>();
         int YOB = Integer.parseInt(value);
         try {
@@ -102,7 +102,7 @@ public class customerDao {
     }
 
     public ArrayList<String> searchAddress(String value) {
-        String qry = "SELECT AddressCus FROM Customer WHERE AddressCus LIKE ? GROUP BY AddressCus";
+        String qry = "SELECT AddressCus FROM Customer WHERE AddressCus LIKE ? GROUP BY AddressCus  LIMIT 0, 15";
         ArrayList<String> list = new ArrayList<>();
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
@@ -165,9 +165,9 @@ public class customerDao {
             }
             qry += "DayVisit BETWEEN ? AND NOW() ";
             sDayVisit = MyUtil.convertUtilToSql(dayVisit);
-            qry += "ORDER BY DayVisit ASC";
+            qry += "ORDER BY DayVisit ASC LIMIT 0, 1000";
         } else {
-            qry += "ORDER BY DayVisit DESC";
+            qry += "ORDER BY DayVisit DESC LIMIT 0, 1000";
         }
         ArrayList<customerView> listCus = new ArrayList<>();
         int count = 1;
