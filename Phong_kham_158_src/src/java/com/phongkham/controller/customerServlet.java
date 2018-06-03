@@ -2,6 +2,7 @@ package com.phongkham.controller;
 
 import com.phongkham.dao.customerDao;
 import com.phongkham.model.Customer;
+import com.phongkham.model.customerHidden;
 import com.phongkham.model.searchCustomer;
 import com.phongkham.util.MyUtil;
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class customerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        customerDao cusDao = new customerDao();
         String tasks = request.getParameter("tasks");
         if (tasks.equals("add")) {
             String Name = request.getParameter("Name");
@@ -55,7 +57,6 @@ public class customerServlet extends HttpServlet {
             cus.setExpectedDOB(ExpectedDOB);
             cus.setResult(Result);
             cus.setNote(Note);
-            customerDao cusDao = new customerDao();
             if (cusDao.addCustomer(cus)) {
                 try (PrintWriter out = response.getWriter()) {
                     out.println("Lưu thành công");
@@ -66,11 +67,35 @@ public class customerServlet extends HttpServlet {
                 }
             }
         }
-        //add hiddden
+        if (tasks.equals("addHidden")) {
+            String Name = request.getParameter("Name");
+            int age;
+            int YOB = 0;
+            int currYear = Year.now().getValue();
+            try {
+                age = Integer.parseInt(request.getParameter("Age"));
+            } catch (NumberFormatException ex) {
+                age = 0;
+            }
+            if (age < 100 && age != 0) {
+                YOB = currYear - age;
+            } else if (age != 0) {
+                YOB = age;
+            }
+            String AddressCus = request.getParameter("AddressCus");
+            Date DayVisit = new Date();
+            String Result = request.getParameter("Result");
+            customerHidden cusHidden = new customerHidden();
+            cusHidden.setName(Name);
+            cusHidden.setYOB(YOB);
+            cusHidden.setAddressCus(AddressCus);
+            cusHidden.setDayVisit(DayVisit);
+            cusHidden.setResult(Result);
+            cusDao.addCustomerHidden(cusHidden);
+        }
         if (tasks.equals("searchContent")) {
             String search = request.getParameter("search");
             String value = request.getParameter("value");
-            customerDao cusDao = new customerDao();
             ArrayList<String> list = new ArrayList<>();
             if (search.equals("inputName")) {
                 list = cusDao.searchName(value);
@@ -117,7 +142,6 @@ public class customerServlet extends HttpServlet {
             content.setAge(YOB);
             content.setAddress(address);
             content.setDayVisit(dayVisit);
-            customerDao cusDao = new customerDao();
             request.setAttribute("listCus", cusDao.search(content));
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/resultOfSearch.jsp");
             dispatch.forward(request, response);

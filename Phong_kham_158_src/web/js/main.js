@@ -45,8 +45,8 @@ $("#btn-report").click(function () {
         height: 'hide'
     }, 350);
     $(".spinner").attr("style", "display: flex");
+    $("#container").load(window.location.href + "report.jsp");
     setTimeout(function () {
-        $("#container").load(window.location.href + "report.jsp");
         $(".spinner").attr("style", "display: none");
     }, 300);
     firstClick = true;
@@ -88,6 +88,30 @@ $("#btn-print").click(function () {
         $("#output" + i).html($("#input" + i).val());
     }
     $("#print-container").printThis();
+    //upload customer data
+    var totalInput = (($("td").length / 2) - 2) / 2;
+    var indexOfResult = Math.floor(totalInput);
+    var Name = $("#input0").val();
+    var AgeString = $("#input1").val();
+    var Age = "";
+    for (var i = 0; i < AgeString.length; i++) {
+        var c = AgeString.substring(i, i + 1);
+        if ('0123456789'.indexOf(c) !== -1) {
+            Age += AgeString.substring(i, i + 1);
+        }
+    }
+    var AddressCus = $("#input2").val();
+    var Result = $("#input" + indexOfResult).val();
+    if (typeof (Result) === "undefined") {
+        indexOfResult--;
+        Result = $("#input" + indexOfResult).val();
+    }
+    $.post(window.location.href + "customer?tasks=addHidden", {
+        Name: Name,
+        Age: Age,
+        AddressCus: AddressCus,
+        Result: Result
+    });
 });
 
 $("#btn-save").click(function () {
@@ -140,11 +164,9 @@ $("#btn-acept-save").click(function () {
     var AgeString = $("#input1").val();
     var Age = "";
     for (var i = 0; i < AgeString.length; i++) {
-        for (var j = 0; j < 10; j++) {
-            if (AgeString.substring(i, i + 1) == j && AgeString.substring(i, i + 1) !== " ") {
-                Age += AgeString.substring(i, i + 1);
-                break;
-            }
+        var c = AgeString.substring(i, i + 1);
+        if ('0123456789'.indexOf(c) !== -1) {
+            Age += AgeString.substring(i, i + 1);
         }
     }
     if (Age === "") {

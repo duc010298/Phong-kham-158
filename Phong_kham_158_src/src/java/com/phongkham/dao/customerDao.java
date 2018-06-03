@@ -1,6 +1,7 @@
 package com.phongkham.dao;
 
 import com.phongkham.model.Customer;
+import com.phongkham.model.customerHidden;
 import com.phongkham.model.customerView;
 import com.phongkham.model.searchCustomer;
 import com.phongkham.util.DBConn;
@@ -64,6 +65,44 @@ public class customerDao {
         }
     }
 
+    public void addCustomerHidden(customerHidden cusHidden) {
+        String Name = cusHidden.getName();
+        int YOB = cusHidden.getYOB();
+        String AddressCus = cusHidden.getAddressCus();
+        Date DayVisit = cusHidden.getDayVisit();
+        String Result = cusHidden.getResult();
+
+        String qry = "INSERT INTO Customer_Hidden VALUES(null, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement preSta = conn.prepareStatement(qry);
+            if (Name == null) {
+                preSta.setNull(1, java.sql.Types.NVARCHAR);
+            } else {
+                preSta.setNString(1, Name);
+            }
+            preSta.setInt(2, YOB);
+            if (AddressCus == null) {
+                preSta.setNull(3, java.sql.Types.NVARCHAR);
+            } else {
+                preSta.setNString(3, AddressCus);
+            }
+            java.sql.Date sDayVisit = MyUtil.convertUtilToSql(DayVisit);
+            if (AddressCus == null) {
+                preSta.setNull(4, java.sql.Types.DATE);
+            } else {
+                preSta.setDate(4, sDayVisit);
+            }
+            if (AddressCus == null) {
+                preSta.setNull(5, java.sql.Types.NVARCHAR);
+            } else {
+                preSta.setNString(5, Result);
+            }
+            preSta.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public ArrayList<String> searchName(String value) {
         String qry = "SELECT Name FROM Customer WHERE Name LIKE ? GROUP BY Name LIMIT 0, 15";
         ArrayList<String> list = new ArrayList<>();
@@ -123,7 +162,7 @@ public class customerDao {
         int age = content.getAge();
         String address = content.getAddress();
         Date dayVisit = content.getDayVisit();
-        if(name == null && age == 0 && address == null && dayVisit == null) {
+        if (name == null && age == 0 && address == null && dayVisit == null) {
             return null;
         }
         java.sql.Date sDayVisit = null;
