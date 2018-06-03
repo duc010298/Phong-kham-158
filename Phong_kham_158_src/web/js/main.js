@@ -46,7 +46,6 @@ $("#btn-report").click(function () {
     }, 350);
     $(".spinner").attr("style", "display: flex");
     setTimeout(function () {
-        //ajax here
         $("#container").load(window.location.href + "report.jsp");
         $(".spinner").attr("style", "display: none");
     }, 300);
@@ -54,17 +53,12 @@ $("#btn-report").click(function () {
 });
 
 $("#nav-2>ul>li").click(function () {
-    for (var i = 1; i <= $("#nav-2>ul>li").length; i++) {
-        if ($("#nav-2>ul>li:nth-child(" + i + ")").attr("class") === "nav-2-content-active") {
-            $("#nav-2>ul>li:nth-child(" + i + ")").attr("class", "nav-2-content");
-            break;
-        }
-    }
+    $("#nav-2>ul>li").attr("class", "nav-2-content");
     $(this).attr("class", "nav-2-content-active");
     $("#tool").fadeIn(500);
-    var postContent = $(this).attr("name");
     $(".content-default").attr("style", "display: none");
     $(".spinner").attr("style", "display: flex");
+    var postContent = $(this).attr("name");
     setTimeout(function () {
         $.ajax({
             url: window.location.href + "form",
@@ -101,11 +95,27 @@ $("#btn-save").click(function () {
 });
 
 $("#btn-reload").click(function () {
-    for (var i = 1; i <= $("#nav-2>ul>li").length; i++) {
-        if ($("#nav-2>ul>li:nth-child(" + i + ")").attr("class") === "nav-2-content-active") {
-            $("#nav-2>ul>li:nth-child(" + i + ")").click();
-            break;
-        }
+    $(".nav-2-content-active").click();
+});
+
+function notify(Header, Content) {
+    $("#notify-header").html(Header);
+    //Độ dài vượt quá 22 gây tràn modal
+    if (Content.length > 22) {
+        $(".modal-body h1").attr("style", "font-size: 1.6rem");
+    }
+    $("#notify-content").html(Content);
+    $("#notify-modal").fadeIn("fast");
+}
+
+$('.modal-body input').keydown(function (e) {
+    if (e.which === 13 || e.which === 40) {
+        var i = $('.modal-body input').index(this) + 1;
+        $('.modal-body input').eq(i).focus();
+    }
+    if (e.which === 38) {
+        var i = $('.modal-body input').index(this) - 1;
+        $('.modal-body input').eq(i).focus();
     }
 });
 
@@ -178,29 +188,8 @@ $("#btn-acept-save").click(function () {
     });
 });
 
-function notify(Header, Content) {
-    $("#notify-header").html(Header);
-    //Độ dài vượt quá 22 gây tràn modal
-    if (Content.length > 22) {
-        $(".modal-body h1").attr("style", "font-size: 1.6rem");
-    }
-    $("#notify-content").html(Content);
-    $("#notify-modal").fadeIn("fast");
-}
-
-$('.modal-body input').keydown(function (e) {
-    if (e.which === 13 || e.which === 40) {
-        var i = $('.modal-body input').index(this) + 1;
-        $('.modal-body input').eq(i).focus();
-    }
-    if (e.which === 38) {
-        var i = $('.modal-body input').index(this) - 1;
-        $('.modal-body input').eq(i).focus();
-    }
-});
-
 function validateDate(date) {
-    //input must be dd/MM/yyyy
+    //input must be dd/MM/yyyy or dd-MM-yyyy
     var arr;
     if (date.indexOf("/") != -1) {
         arr = date.split("/");

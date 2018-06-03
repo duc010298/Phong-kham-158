@@ -66,7 +66,7 @@ public class customerServlet extends HttpServlet {
                 }
             }
         }
-
+        //add hiddden
         if (tasks.equals("searchContent")) {
             String search = request.getParameter("search");
             String value = request.getParameter("value");
