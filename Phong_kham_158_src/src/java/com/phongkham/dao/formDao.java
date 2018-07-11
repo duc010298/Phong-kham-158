@@ -35,7 +35,7 @@ public class formDao {
             }
             return formList;
         } catch (SQLException ex) {
-            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(formDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -53,7 +53,7 @@ public class formDao {
             }
             return formId;
         } catch (SQLException ex) {
-            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(formDao.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }

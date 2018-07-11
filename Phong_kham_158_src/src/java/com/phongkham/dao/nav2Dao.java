@@ -36,7 +36,7 @@ public class nav2Dao {
             }
             return nav2List;
         } catch (SQLException ex) {
-            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(nav2Dao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
