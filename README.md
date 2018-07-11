@@ -12,5 +12,5 @@ Chương trình sẽ thay thế word, giúp cho việc nhập thông tin khách 
 Mã nguồn được xây dựng dữa trên:
 
 1. NetBeans IDE 8.2
-2. MySQL
+2. SQLite
 3. Apache Tomcat 9.0.2
