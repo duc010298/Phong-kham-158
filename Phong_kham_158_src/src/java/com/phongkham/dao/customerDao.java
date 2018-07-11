@@ -205,9 +205,12 @@ public class customerDao {
     }
 
     public ArrayList<customerView> search(searchCustomer content) {
-        String name = content.getName();
+        String temp;
+        temp = content.getName();
+        String name = (temp == null) ? null : VNCharacterUtils.removeAccent(temp).toLowerCase();
         int age = content.getAge();
-        String address = content.getAddress();
+        temp = content.getAddress();
+        String address = (temp == null) ? null : VNCharacterUtils.removeAccent(temp).toLowerCase();
         Date dayVisit = content.getDayVisit();
         if (name == null && age == 0 && address == null && dayVisit == null) {
             return null;
@@ -222,7 +225,7 @@ public class customerDao {
                 qry += "WHERE ";
                 notFirstValue = true;
             }
-            qry += "Name LIKE ? ";
+            qry += "NameS LIKE ? ";
         }
         if (age != 0) {
             if (notFirstValue) {
@@ -240,7 +243,7 @@ public class customerDao {
                 qry += "WHERE ";
                 notFirstValue = true;
             }
-            qry += "AddressCus LIKE ?";
+            qry += "AddressCusS LIKE ?";
         }
         if (dayVisit != null) {
             if (notFirstValue) {
@@ -307,5 +310,4 @@ public class customerDao {
         }
         return listCus;
     }
-
 }
