@@ -21,6 +21,16 @@ public class nav2Dao {
     public Connection getConnection() {
         return conn;
     }
+    
+    public void closeConnection() {
+        try {
+            if(conn != null || !conn.isClosed()) {
+                conn.close();
+            }
+        } catch(SQLException e) {
+            Logger.getLogger(nav2Dao.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
 
     public ArrayList<nav2ContentView> getNav2Content() {
         ArrayList<nav2ContentView> nav2List = new ArrayList<>();
@@ -31,7 +41,7 @@ public class nav2Dao {
             while (rs.next()) {
                 nav2ContentView content = new nav2ContentView();
                 content.setId(rs.getInt("ID"));
-                content.setName(rs.getNString("Name"));
+                content.setName(rs.getString("Name"));
                 nav2List.add(content);
             }
             return nav2List;

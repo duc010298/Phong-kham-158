@@ -6,6 +6,7 @@ import com.phongkham.model.customerView;
 import com.phongkham.model.searchCustomer;
 import com.phongkham.util.DBConn;
 import com.phongkham.util.MyUtil;
+import com.phongkham.util.VNCharacterUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,36 +26,40 @@ public class customerDao {
 
     public boolean addCustomer(Customer cus) {
         String Name = cus.getName();
+        String NameS = VNCharacterUtils.removeAccent(Name).toLowerCase();
         int YOB = cus.getYOB();
         String AddressCus = cus.getAddressCus();
+        String AddressCusS = VNCharacterUtils.removeAccent(AddressCus).toLowerCase();
         Date DayVisit = cus.getDayVisit();
         Date ExpectedDOB = cus.getExpectedDOB();
         String Result = cus.getResult();
         String Note = cus.getNote();
 
-        String qry = "INSERT INTO Customer VALUES(null, ?, ?, ?, ?, ?, ?, ?)";
+        String qry = "INSERT INTO Customer VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
-            preSta.setNString(1, Name);
-            preSta.setInt(2, YOB);
-            preSta.setNString(3, AddressCus);
+            preSta.setString(1, Name);
+            preSta.setString(2, NameS);
+            preSta.setInt(3, YOB);
+            preSta.setString(4, AddressCus);
+            preSta.setString(5, AddressCusS);
 
             java.sql.Date sDayVisit = MyUtil.convertUtilToSql(DayVisit);
-            preSta.setDate(4, sDayVisit);
+            preSta.setDate(6, sDayVisit);
 
             if (ExpectedDOB == null) {
-                preSta.setNull(5, java.sql.Types.DATE);
+                preSta.setNull(7, java.sql.Types.DATE);
             } else {
                 java.sql.Date sExpectedDOB = MyUtil.convertUtilToSql(ExpectedDOB);
-                preSta.setDate(5, sExpectedDOB);
+                preSta.setDate(7, sExpectedDOB);
             }
 
-            preSta.setNString(6, Result);
+            preSta.setString(8, Result);
             if (Note == null) {
-                preSta.setNull(7, java.sql.Types.NVARCHAR);
+                preSta.setNull(9, java.sql.Types.NVARCHAR);
             } else {
-                preSta.setNString(7, Note);
+                preSta.setString(9, Note);
             }
             preSta.executeUpdate();
 
@@ -62,6 +67,14 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
         }
     }
 
@@ -78,13 +91,13 @@ public class customerDao {
             if (Name == null) {
                 preSta.setNull(1, java.sql.Types.NVARCHAR);
             } else {
-                preSta.setNString(1, Name);
+                preSta.setString(1, Name);
             }
             preSta.setInt(2, YOB);
             if (AddressCus == null) {
                 preSta.setNull(3, java.sql.Types.NVARCHAR);
             } else {
-                preSta.setNString(3, AddressCus);
+                preSta.setString(3, AddressCus);
             }
             java.sql.Date sDayVisit = MyUtil.convertUtilToSql(DayVisit);
             if (AddressCus == null) {
@@ -95,28 +108,45 @@ public class customerDao {
             if (AddressCus == null) {
                 preSta.setNull(5, java.sql.Types.NVARCHAR);
             } else {
-                preSta.setNString(5, Result);
+                preSta.setString(5, Result);
             }
             preSta.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
         }
     }
 
     public ArrayList<String> searchName(String value) {
-        String qry = "SELECT Name FROM Customer WHERE Name LIKE ? GROUP BY Name LIMIT 0, 15";
+        value = VNCharacterUtils.removeAccent(value).toLowerCase();
+        String qry = "SELECT Name FROM Customer WHERE NameS LIKE ? GROUP BY Name LIMIT 0, 15";
         ArrayList<String> list = new ArrayList<>();
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
-            preSta.setNString(1, "%" + value + "%");
+            preSta.setString(1, "%" + value + "%");
             ResultSet rs = preSta.executeQuery();
             while (rs.next()) {
-                list.add(rs.getNString("Name"));
+                list.add(rs.getString("Name"));
             }
             return list;
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
         }
     }
 
@@ -126,7 +156,7 @@ public class customerDao {
         int YOB = Integer.parseInt(value);
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
-            preSta.setNString(1, "%" + YOB + "%");
+            preSta.setString(1, "%" + YOB + "%");
             ResultSet rs = preSta.executeQuery();
             while (rs.next()) {
                 int result = rs.getInt("YOB");
@@ -137,23 +167,40 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
         }
     }
 
     public ArrayList<String> searchAddress(String value) {
-        String qry = "SELECT AddressCus FROM Customer WHERE AddressCus LIKE ? GROUP BY AddressCus  LIMIT 0, 15";
+        value = VNCharacterUtils.removeAccent(value).toLowerCase();
+        String qry = "SELECT AddressCus FROM Customer WHERE AddressCusS LIKE ? GROUP BY AddressCus  LIMIT 0, 15";
         ArrayList<String> list = new ArrayList<>();
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
-            preSta.setNString(1, "%" + value + "%");
+            preSta.setString(1, "%" + value + "%");
             ResultSet rs = preSta.executeQuery();
             while (rs.next()) {
-                list.add(rs.getNString("AddressCus"));
+                list.add(rs.getString("AddressCus"));
             }
             return list;
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
         }
     }
 
@@ -213,7 +260,7 @@ public class customerDao {
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
             if (name != null) {
-                preSta.setNString(count, "%" + name + "%");
+                preSta.setString(count, "%" + name + "%");
                 count++;
             }
             if (age != 0) {
@@ -221,7 +268,7 @@ public class customerDao {
                 count++;
             }
             if (address != null) {
-                preSta.setNString(count, "%" + address + "%");
+                preSta.setString(count, "%" + address + "%");
                 count++;
             }
             if (dayVisit != null) {
@@ -235,7 +282,7 @@ public class customerDao {
                 String resultAddress = rs.getString("AddressCus");
                 Date resultExpectedDOB = rs.getDate("ExpectedDOB");
                 String resultResult = rs.getString("Result");
-                String resultNote = rs.getNString("Note");
+                String resultNote = rs.getString("Note");
                 customerView cus = new customerView();
                 cus.setDayVisit(resultDayVisit);
                 cus.setName(resultName);
@@ -249,6 +296,14 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
         }
         return listCus;
     }
