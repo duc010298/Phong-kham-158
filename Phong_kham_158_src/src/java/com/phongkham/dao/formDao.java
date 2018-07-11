@@ -17,6 +17,16 @@ public class formDao {
     public formDao() {
         conn = DBConn.getConnection();
     }
+    
+    public void closeConnection() {
+        try {
+            if(conn != null || !conn.isClosed()) {
+                conn.close();
+            }
+        } catch(SQLException e) {
+            Logger.getLogger(formDao.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
 
     public ArrayList<formView> getFormContent(String Id) {
         ArrayList<formView> formList = new ArrayList<>();
@@ -26,8 +36,8 @@ public class formDao {
             preSta.setString(1, Id);
             ResultSet rs = preSta.executeQuery();
             while (rs.next()) {
-                String class1 = (rs.getNString("Class1") == null) ? "" : rs.getNString("Class1");
-                String class2 = (rs.getNString("Class2") == null) ? "" : rs.getNString("Class2");
+                String class1 = (rs.getString("Class1") == null) ? "" : rs.getString("Class1");
+                String class2 = (rs.getString("Class2") == null) ? "" : rs.getString("Class2");
                 formView form = new formView();
                 form.setClass1(class1);
                 form.setClass2(class2);

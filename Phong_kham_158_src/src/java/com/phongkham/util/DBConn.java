@@ -9,22 +9,14 @@ import java.util.logging.Logger;
 public class DBConn {
 
     public static Connection getConnection() {
-
-        String IP = "localhost";
-        String port = "3306";
-        String database = "phongkham";
-        String userID = "duc010298";
-        String password = "12345";
-
-        String url = "jdbc:mysql://" + IP + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false";
-
+        String url = "jdbc:sqlite:C://Users/Admin/Documents/GitHub/Phong-kham-158/Database/phongkham.db";
+        Connection conn = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(url, userID, password);
-            return conn;
-        } catch (ClassNotFoundException | SQLException ex) {
+            Class.forName("org.sqlite.JDBC");
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConn.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
         }
+        return conn;
     }
 }

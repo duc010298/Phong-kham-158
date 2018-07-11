@@ -1,38 +1,36 @@
-CREATE DATABASE phongkham;
-
-USE phongkham;
-
-CREATE TABLE Customer (
-	Id INT PRIMARY KEY AUTO_INCREMENT,
-	Name VARCHAR(250),
+﻿CREATE TABLE Customer (
+	Id INTEGER PRIMARY KEY AUTOINCREMENT,
+	Name TEXT,
+	NameS TEXT,
 	YOB INT,
-	AddressCus VARCHAR(250),
+	AddressCus TEXT,
+	AddressCusS TEXT,
 	DayVisit DATE,
 	ExpectedDOB DATE,
-	Result VARCHAR(250),
-	Note VARCHAR(250)
+	Result TEXT,
+	Note TEXT
 );
 
 CREATE TABLE Customer_Hidden (
-	Id INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(250),
+	Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT,
     YOB INT,
-    AddressCus VARCHAR(250),
+    AddressCus TEXT,
     DayVisit DATE,
-    Result VARCHAR(250)
+    Result TEXT
 );
 
 CREATE TABLE KetQuaSieuAm (
 	ID INT PRIMARY KEY NOT NULL,
-	Name VARCHAR(100) NOT NULL,
+	Name TEXT NOT NULL,
 	OrderNumber INT NOT NULL,
 	FormID INT NOT NULL
 );
 
 CREATE TABLE KetQuaSieuAm_Content (
 	OrderNumber INT NOT NULL,
-	Class1 VARCHAR(250),
-	Class2 VARCHAR(250),
+	Class1 TEXT,
+	Class2 TEXT,
 	KqsaId INT NOT NULL,
 	PRIMARY KEY(OrderNumber, KqsaId),
 	FOREIGN KEY (KqsaId) REFERENCES KetQuaSieuAm(ID)

@@ -24,6 +24,7 @@ public class homeServlet extends HttpServlet {
         }
         request.setAttribute("nav2CtList", nav2dao.getNav2Content());
         RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/index.jsp");
+        nav2dao.closeConnection();
         dispatch.forward(request, response);
     }
 

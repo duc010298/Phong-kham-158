@@ -19,6 +19,7 @@ public class formServlet extends HttpServlet {
         String Id = request.getParameter("Id");
         request.setAttribute("formList", formdao.getFormContent(Id));
         RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/form" + formdao.getFormId(Id) + ".jsp");
+        formdao.closeConnection();
         dispatch.forward(request, response);
     }
 
