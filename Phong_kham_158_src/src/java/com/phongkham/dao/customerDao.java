@@ -126,7 +126,7 @@ public class customerDao {
 
     public ArrayList<String> searchName(String value) {
         value = VNCharacterUtils.removeAccent(value).toLowerCase();
-        String qry = "SELECT Name FROM Customer WHERE NameS LIKE ? GROUP BY Name LIMIT 0, 15";
+        String qry = "SELECT Name FROM Customer WHERE NameS LIKE ? GROUP BY NameS LIMIT 0, 15";
         ArrayList<String> list = new ArrayList<>();
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
@@ -180,7 +180,7 @@ public class customerDao {
 
     public ArrayList<String> searchAddress(String value) {
         value = VNCharacterUtils.removeAccent(value).toLowerCase();
-        String qry = "SELECT AddressCus FROM Customer WHERE AddressCusS LIKE ? GROUP BY AddressCus  LIMIT 0, 15";
+        String qry = "SELECT AddressCus FROM Customer WHERE AddressCusS LIKE ? GROUP BY AddressCusS  LIMIT 0, 15";
         ArrayList<String> list = new ArrayList<>();
         try {
             PreparedStatement preSta = conn.prepareStatement(qry);
