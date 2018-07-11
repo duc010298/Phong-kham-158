@@ -35,16 +35,8 @@ public class formDao {
             }
             return formList;
         } catch (SQLException ex) {
-            Logger.getLogger(formDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(formDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -61,16 +53,8 @@ public class formDao {
             }
             return formId;
         } catch (SQLException ex) {
-            Logger.getLogger(formDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(formDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 }

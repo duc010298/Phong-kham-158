@@ -62,14 +62,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -108,14 +100,6 @@ public class customerDao {
             preSta.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -133,14 +117,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -161,14 +137,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -186,14 +154,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -289,14 +249,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
         return listCus;
     }

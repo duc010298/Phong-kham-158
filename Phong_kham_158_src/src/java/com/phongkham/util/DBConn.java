@@ -1,5 +1,6 @@
 package com.phongkham.util;
 
+import com.phongkham.dao.customerDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ public class DBConn {
             Connection conn = DriverManager.getConnection(url, userID, password);
             return conn;
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DBConn.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

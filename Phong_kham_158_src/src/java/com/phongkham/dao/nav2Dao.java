@@ -36,16 +36,8 @@ public class nav2Dao {
             }
             return nav2List;
         } catch (SQLException ex) {
-            Logger.getLogger(nav2Dao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(nav2Dao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 }
