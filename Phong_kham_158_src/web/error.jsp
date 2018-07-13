@@ -32,16 +32,16 @@
             }
 
             h1 {
-                font-size: 50px;
+                font-size: 3.125rem;
             }
 
             span {
                 color: red;
-                font-size: 100px;
+                font-size: 6.25rem;
             }
 
             p {
-                font-size: 20px;
+                font-size: 1.25rem;
             }
         </style>
         <main>
