@@ -2,6 +2,7 @@ package com.phongkham.dao;
 
 import com.phongkham.model.Customer;
 import com.phongkham.model.customerHidden;
+import com.phongkham.model.customerHiddenView;
 import com.phongkham.model.customerView;
 import com.phongkham.model.searchCustomer;
 import com.phongkham.util.DBConn;
@@ -22,6 +23,16 @@ public class customerDao {
 
     public customerDao() {
         conn = DBConn.getConnection();
+    }
+
+    public void closeConnection() {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
     }
 
     public boolean addCustomer(Customer cus) {
@@ -67,14 +78,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -113,14 +116,6 @@ public class customerDao {
             preSta.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -139,14 +134,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -167,14 +154,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -193,14 +172,6 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
     }
 
@@ -252,7 +223,7 @@ public class customerDao {
                 qry += "WHERE ";
                 notFirstValue = true;
             }
-            qry += "DayVisit BETWEEN ? AND NOW() ";
+            qry += "DayVisit BETWEEN ? AND DATE('NOW') ";
             sDayVisit = MyUtil.convertUtilToSql(dayVisit);
             qry += "ORDER BY DayVisit ASC LIMIT 0, 1000";
         } else {
@@ -299,15 +270,63 @@ public class customerDao {
         } catch (SQLException ex) {
             Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
         return listCus;
+    }
+
+    public ArrayList<customerHiddenView> searchCusHiddenSave(String value) {
+        ArrayList<customerHiddenView> listCusPrint = new ArrayList<>();
+        Date dayVisit = MyUtil.convertStrToDate(value);
+        java.sql.Date sDayVisit = MyUtil.convertUtilToSql(dayVisit);
+        String qry = "SELECT Name, YOB, AddressCus, Result FROM Customer WHERE DayVisit = ? ORDER BY DayVisit";
+        try {
+            PreparedStatement preSta = conn.prepareStatement(qry);
+            preSta.setDate(1, sDayVisit);
+            ResultSet rs = preSta.executeQuery();
+            while (rs.next()) {
+                String resultName = rs.getString("Name");
+                int resultYOB = rs.getInt("YOB");
+                String resultAddress = rs.getString("AddressCus");
+                String resultResult = rs.getString("Result");
+                customerHiddenView cus = new customerHiddenView();
+                cus.setName(resultName);
+                cus.setAge(resultYOB);
+                cus.setAddressCus(resultAddress);
+                cus.setResult(resultResult);
+                listCusPrint.add(cus);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return listCusPrint;
+    }
+
+    public ArrayList<customerHiddenView> searchCusHiddenPrint(String value) {
+        ArrayList<customerHiddenView> listCusPrint = new ArrayList<>();
+        Date dayVisit = MyUtil.convertStrToDate(value);
+        java.sql.Date sDayVisit = MyUtil.convertUtilToSql(dayVisit);
+        String qry = "SELECT Name, YOB, AddressCus, Result FROM Customer_Hidden WHERE DayVisit = ? ORDER BY DayVisit";
+        try {
+            PreparedStatement preSta = conn.prepareStatement(qry);
+            preSta.setDate(1, sDayVisit);
+            ResultSet rs = preSta.executeQuery();
+            while (rs.next()) {
+                String resultName = rs.getString("Name");
+                int resultYOB = rs.getInt("YOB");
+                String resultAddress = rs.getString("AddressCus");
+                String resultResult = rs.getString("Result");
+                customerHiddenView cus = new customerHiddenView();
+                cus.setName(resultName);
+                cus.setAge(resultYOB);
+                cus.setAddressCus(resultAddress);
+                cus.setResult(resultResult);
+                listCusPrint.add(cus);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(customerDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return listCusPrint;
     }
 }

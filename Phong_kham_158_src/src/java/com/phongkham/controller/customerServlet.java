@@ -57,7 +57,9 @@ public class customerServlet extends HttpServlet {
             cus.setExpectedDOB(ExpectedDOB);
             cus.setResult(Result);
             cus.setNote(Note);
-            if (cusDao.addCustomer(cus)) {
+            boolean status = cusDao.addCustomer(cus);
+            cusDao.closeConnection();
+            if (status) {
                 try (PrintWriter out = response.getWriter()) {
                     out.println("Lưu thành công");
                 }
@@ -92,6 +94,7 @@ public class customerServlet extends HttpServlet {
             cusHidden.setDayVisit(DayVisit);
             cusHidden.setResult(Result);
             cusDao.addCustomerHidden(cusHidden);
+            cusDao.closeConnection();
         }
         if (tasks.equals("searchContent")) {
             String search = request.getParameter("search");
@@ -106,6 +109,7 @@ public class customerServlet extends HttpServlet {
             if (search.equals("inputAddress")) {
                 list = cusDao.searchAddress(value);
             }
+            cusDao.closeConnection();
             String str = MyUtil.listStrToJson(list);
             try (PrintWriter out = response.getWriter()) {
                 out.println(str);
@@ -143,7 +147,16 @@ public class customerServlet extends HttpServlet {
             content.setAddress(address);
             content.setDayVisit(dayVisit);
             request.setAttribute("listCus", cusDao.search(content));
+            cusDao.closeConnection();
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/resultOfSearch.jsp");
+            dispatch.forward(request, response);
+        }
+        if (tasks.equals("searchHidden")) {
+            String date = request.getParameter("dayVisit");
+            request.setAttribute("listCusPrint", cusDao.searchCusHiddenPrint(date));
+            request.setAttribute("listCusSave", cusDao.searchCusHiddenSave(date));
+            cusDao.closeConnection();
+            RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/resultOfSearchHidden.jsp");
             dispatch.forward(request, response);
         }
     }
