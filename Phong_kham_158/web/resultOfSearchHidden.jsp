@@ -1,9 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="display-result-content">
+    <h3 id="totalPrint">Tổng số ca đã in: </h3>
+    <h3 id="totalSave">Tổng số ca đã lưu: </h3>
+    <hr>
     <div class="totalPrint">
-        <h3>Tổng số ca đã in: </h3>
-        <table>
+        <h3>Các ca đã in </h3>
+        <table display="none">
             <tr>
                 <th class="STT"></th>
                 <th class="Name">Họ và tên</th>
@@ -26,9 +29,9 @@
             </c:forEach>
         </table>
     </div>
-    <br><hr><br>
+    <br><hr>
     <div class="totalSave">
-        <h3>Tổng số ca đã lưu: </h3>
+        <h3>Các ca đã lưu</h3>
         <table>
             <tr>
                 <th class="STT"></th>
@@ -56,6 +59,6 @@
 <script>
     var totalPrint = $(".totalPrint tr").length - 1;
     var totalSave = $(".totalSave tr").length - 1;
-    $(".totalPrint h3").html($(".totalPrint h3").html() + totalPrint);
-    $(".totalSave h3").html($(".totalSave h3").html() + totalSave);
+    $("#totalPrint").html($("#totalPrint").html() + totalPrint);
+    $("#totalSave").html($("#totalSave").html() + totalSave);
 </script>

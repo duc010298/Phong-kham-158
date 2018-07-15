@@ -13,21 +13,6 @@
             <div class="nav">
                 <div class="nav-content">QUẢN LÍ PHÒNG KHÁM</div>
             </div>
-            <div id="notify-modal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <p id="notify-header"></p>
-                    </div>
-                    <hr>
-                    <div class="modal-body">
-                        <h1 id="notify-content"></h1>
-                    </div>
-                    <hr>
-                    <div class="modal-footer">
-                        <div class="btn-close">Đóng</div>
-                    </div>
-                </div>
-            </div>
         </header>
         <style>
             main {
@@ -101,6 +86,21 @@
                 background-color: #c9302c;
             }
 
+            .display-result-content hr {
+                margin: 0.9375rem 0;
+                border-top: 1px solid #404040;
+                border-left: none;
+                border-right: none;
+                border-bottom: none;
+            }
+
+            .alert {
+                display: none;
+                margin: 0.9375rem 0 0 0.9375rem;
+                font-weight: bold;
+                color: red;
+            }
+
             @media(max-width: 1000px) {
                 .searchHidden {
                     height: 11rem;
@@ -126,6 +126,7 @@
                 <div class="searchHidden-body">
                     <h2>Nhập ngày</h2>
                     <input type="text" id="inputDayVisitHidden" placeholder="dd/MM/yyy" name="inputDayVisit">
+                    <h5 class="alert"></h5>
                 </div>
                 <hr>
                 <div class="searchHidden-footer">
@@ -153,11 +154,23 @@
             $("#btn-searchHidden").click(function () {
                 var dayVisit = $("#inputDayVisitHidden").val();
                 if (dayVisit == "") {
-                    notify("Lỗi", "Ngày bị bỏ trống");
+                    $(".alert").html("Chú ý: Không được bỏ trống ô nhập ngày");
+                    if ($(window).width() <= 1314) {
+                        $(".searchHidden").attr("style", "height: 13rem;");
+                    } else {
+                        $(".searchHidden").attr("style", "height: 10rem;");
+                    }
+                    $(".alert").fadeIn();
                     return;
                 }
                 if (!validateDate(dayVisit) && dayVisit != "") {
-                    notify("Lỗi", "Ngày chưa được nhập chính xác");
+                    $(".alert").html("Chú ý: Ngày chưa được nhập chính xác");
+                    if ($(window).width() <= 1314) {
+                        $(".searchHidden").attr("style", "height: 13rem;");
+                    } else {
+                        $(".searchHidden").attr("style", "height: 10rem;");
+                    }
+                    $(".alert").fadeIn();
                     return;
                 }
                 $.ajax({
@@ -170,7 +183,15 @@
                 }).done(function (result) {
                     $("#display-resultHidden").html(result);
                 });
+                $(".alert").fadeOut();
+                $(".searchHidden").removeAttr("style");
                 $("footer").fadeOut();
+            });
+
+            $("#inputDayVisitHidden").keydown(function (e) {
+                if (e.which === 13) {
+                    $("#btn-searchHidden").click();
+                }
             });
         </script>
     </body>
