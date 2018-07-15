@@ -30,6 +30,10 @@
             </div>
         </header>
         <style>
+            main {
+                padding: 10px 50px;
+            }
+
             .searchHidden {
                 width: 100%;
                 height: 8rem;
@@ -104,9 +108,12 @@
                 html {
                     font-size: 200%;
                 }
+                main {
+                    padding: 0;
+                }
             }
 
-            @media(max-width: 1206px) {
+            @media(max-width: 1314px) {
                 .searchHidden {
                     height: 11rem;
                 }           
@@ -126,7 +133,7 @@
                     <div class="btn-searchHidden" id="btn-searchHidden"><span class="fas fa-search"></span> Tìm kiếm</div>
                 </div>
             </div>
-            <div id="display-resultHidden">
+            <div class="display-result" id="display-resultHidden">
 
             </div>
         </main>
@@ -165,8 +172,6 @@
                 });
                 $("footer").fadeOut();
             });
-            
-            
         </script>
     </body>
 </html>

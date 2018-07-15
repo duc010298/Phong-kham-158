@@ -26,7 +26,7 @@
             </c:forEach>
         </table>
     </div>
-
+    <br><hr><br>
     <div class="totalSave">
         <h3>Tổng số ca đã lưu: </h3>
         <table>
@@ -53,3 +53,9 @@
         </table>
     </div>
 </div>
+<script>
+    var totalPrint = $(".totalPrint tr").length - 1;
+    var totalSave = $(".totalSave tr").length - 1;
+    $(".totalPrint h3").html($(".totalPrint h3").html() + totalPrint);
+    $(".totalSave h3").html($(".totalSave h3").html() + totalSave);
+</script>
