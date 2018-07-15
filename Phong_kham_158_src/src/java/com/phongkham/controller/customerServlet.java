@@ -41,7 +41,8 @@ public class customerServlet extends HttpServlet {
                 YOB = age;
             }
             String AddressCus = request.getParameter("AddressCus");
-            Date DayVisit = new Date();
+            String strDayVisit = request.getParameter("DayVisit");
+            Date DayVisit = MyUtil.convertStrToDate(strDayVisit);
             String strExpectedDOB = request.getParameter("ExpectedDOB");
             Date ExpectedDOB = MyUtil.convertStrToDate(strExpectedDOB);
             String Result = request.getParameter("Result");
@@ -85,7 +86,8 @@ public class customerServlet extends HttpServlet {
                 YOB = age;
             }
             String AddressCus = request.getParameter("AddressCus");
-            Date DayVisit = new Date();
+            String strDayVisit = request.getParameter("DayVisit");
+            Date DayVisit = MyUtil.convertStrToDate(strDayVisit);
             String Result = request.getParameter("Result");
             customerHidden cusHidden = new customerHidden();
             cusHidden.setName(Name);

@@ -101,6 +101,17 @@ $("#btn-print").click(function () {
         }
     }
     var AddressCus = $("#input2").val();
+    var DayVisit = new Date();
+    var dd = DayVisit.getDate();
+    var mm = DayVisit.getMonth() + 1; //January is 0!
+    var yyyy = DayVisit.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    DayVisit = dd + '/' + mm + '/' + yyyy;
     var Result = $("#input" + indexOfResult).val();
     if (typeof (Result) === "undefined") {
         indexOfResult--;
@@ -110,6 +121,7 @@ $("#btn-print").click(function () {
         Name: Name,
         Age: Age,
         AddressCus: AddressCus,
+        DayVisit: DayVisit,
         Result: Result
     });
 });
@@ -180,6 +192,17 @@ $("#btn-acept-save").click(function () {
         notify("Lỗi", "Chưa nhập địa chỉ");
         return;
     }
+    var DayVisit = new Date();
+    var dd = DayVisit.getDate();
+    var mm = DayVisit.getMonth() + 1; //January is 0!
+    var yyyy = DayVisit.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    DayVisit = dd + '/' + mm + '/' + yyyy;
     var ExpectedDOB = $("#ExpectedDOB").val();
     ExpectedDOB = $("#ExpectedDOB").val();
     if (!validateDate(ExpectedDOB) && ExpectedDOB != "") {
@@ -201,6 +224,7 @@ $("#btn-acept-save").click(function () {
             Name: Name,
             Age: Age,
             AddressCus: AddressCus,
+            DayVisit: DayVisit,
             ExpectedDOB: ExpectedDOB,
             Result: Result,
             Note: Note
